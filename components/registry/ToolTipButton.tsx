@@ -5,10 +5,12 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 export default function ToolTipButton({
   props,
   children,
+  tipProps,
   tip,
 }: {
   props?: ComponentProps<typeof Button>;
   children?: React.ReactNode;
+  tipProps?: ComponentProps<typeof TooltipContent>;
   tip?: React.ReactNode;
 }) {
   return (
@@ -16,7 +18,7 @@ export default function ToolTipButton({
       <TooltipTrigger
         render={<Button {...props}>{children}</Button>}
       ></TooltipTrigger>
-      <TooltipContent>{tip}</TooltipContent>
+      <TooltipContent {...tipProps}>{tip}</TooltipContent>
     </Tooltip>
   );
 }
