@@ -15,9 +15,7 @@ export default function ToolTipButton({
 }) {
   return (
     <Tooltip>
-      <TooltipTrigger
-        render={<Button {...props}>{children}</Button>}
-      ></TooltipTrigger>
+      <TooltipTrigger render={<Button {...props}>{children}</Button>} />
       <TooltipContent {...tipProps}>{tip}</TooltipContent>
     </Tooltip>
   );
