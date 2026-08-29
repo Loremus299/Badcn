@@ -1,19 +1,33 @@
 import ToolTipButton from "@/components/registry/ToolTipButton";
-import { ChevronRightCircleIcon } from "lucide-react";
+import { CatIcon } from "lucide-react";
 
 export default function Page() {
   return (
-    <div className="grid place-items-center min-h-screen w-full">
-      <ToolTipButton
-        tip={
-          <div>
-            <p>Review the code of this PR.</p>
-            <p className="text-muted">submitted by: Loremus</p>
+    <main className="grid place-items-center pt-16 gap-8">
+      <div className="text-center">
+        <h1 className="text-3xl font-semibold tracking-tighter">Badcn</h1>
+        <h3 className="text-muted-foreground tracking-tight">
+          A Shadcn++ repository.
+        </h3>
+      </div>
+      <div className="min-h-screen grid max-w-7xl w-full grid-cols-3 gap-4 p-4">
+        <div>
+          <div className="w-full aspect-video border bg-card/25 rounded-md @container grid place-items-center">
+            <ToolTipButton
+              tip={
+                <p className="text-muted">
+                  This button will make you{" "}
+                  <span className="text-sidebar-primary">MEOW!!</span>
+                </p>
+              }
+            >
+              <CatIcon />
+              Meow
+            </ToolTipButton>
           </div>
-        }
-      >
-        <ChevronRightCircleIcon /> Review
-      </ToolTipButton>
-    </div>
+          <h6 className="-mt-8 ml-3 text-sm">Tool Tip Button</h6>
+        </div>
+      </div>
+    </main>
   );
 }
