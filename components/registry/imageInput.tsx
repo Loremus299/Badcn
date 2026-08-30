@@ -10,7 +10,7 @@ type Props = Omit<Omit<ComponentProps<typeof Input>, "accept">, "className"> & {
 };
 
 export default function ImageInput({
-  accepts = ["image/png, image/jpeg, image/gif, image/webp"],
+  accepts = ["image/png", "image/jpeg", "image/gif", "image/webp"],
   className,
   onChange = () => null,
   ...props
@@ -19,9 +19,13 @@ export default function ImageInput({
   const [files, setFiles] = useState<File[]>([]);
 
   return (
-    <div className="grid gap-2">
+    <div className="grid gap-2 ">
       <div
-        className={cn("text-sm p-3 rounded-md border", className)}
+        className={cn(
+          "text-sm p-3 rounded-md border cursor-crosshair",
+          className,
+        )}
+        tabIndex={0}
         onPaste={(e) => {
           const input = inputRef.current!;
           e.preventDefault();
