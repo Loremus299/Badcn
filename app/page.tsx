@@ -1,6 +1,7 @@
 "use client";
 
 import ComponentShowcase from "@/components/compShow";
+import LoadingButton from "@/components/registry/loadingButton";
 import TooltipButton from "@/components/registry/ToolTipButton";
 import { CatIcon } from "lucide-react";
 
@@ -15,8 +16,15 @@ export default function Page() {
       </div>
       <div className="min-h-screen grid max-w-7xl w-full grid-cols-3 gap-4 p-4">
         <ComponentShowcase
+          name="Loading Button."
+          description="A button with support for loading state."
+          url="/loading-button"
+        >
+          <LoadingButton>Load on click</LoadingButton>
+        </ComponentShowcase>
+        <ComponentShowcase
           url="/tooltip-button"
-          name="Tooltip Button"
+          name="Tooltip Button."
           description="A button with tooltip and loading support."
         >
           <TooltipButton
