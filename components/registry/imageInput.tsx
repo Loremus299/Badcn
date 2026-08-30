@@ -116,8 +116,8 @@ export default function ImageInput({
         />
       </div>
       <Carousel className="w-fit">
+        {currentFiles.length !== 0 && <CarouselPrevious />}
         <CarouselContent>
-          <CarouselPrevious />
           {currentFiles.map((item, index) => (
             <CarouselItem key={index}>
               <div className="relative">
@@ -146,8 +146,8 @@ export default function ImageInput({
               </div>
             </CarouselItem>
           ))}
-          <CarouselNext />
         </CarouselContent>
+        {currentFiles.length !== 0 && <CarouselNext />}
       </Carousel>
     </div>
   );
