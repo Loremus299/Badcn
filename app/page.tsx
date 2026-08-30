@@ -15,6 +15,7 @@ export default function Page() {
         <div>
           <div className="w-full aspect-video border bg-card/25 rounded-md @container grid place-items-center">
             <ToolTipButton
+              isLoading={true}
               tip={
                 <p className="text-muted">
                   This button will make you{" "}
