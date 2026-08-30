@@ -2,7 +2,7 @@ import { ComponentProps } from "react";
 import { Button } from "../ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
-export default function ToolTipButton({
+export default function TooltipButton({
   props,
   children,
   tipProps,
