@@ -17,7 +17,7 @@ export default function Page() {
               tip={
                 <p className="text-muted">
                   This button will make you{" "}
-                  <span className="text-sidebar-primary">MEOW!!</span>
+                  <span className="text-destructive">MEOW!!</span>
                 </p>
               }
             >
