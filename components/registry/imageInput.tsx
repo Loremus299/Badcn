@@ -4,7 +4,13 @@
 import { ComponentProps, useEffect, useRef, useState } from "react";
 import { Input } from "../ui/input";
 import { cn } from "@/lib/utils";
-import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "../ui/carousel";
 import { Button } from "../ui/button";
 
 type Props = Omit<Omit<ComponentProps<typeof Input>, "accept">, "className"> & {
@@ -87,6 +93,7 @@ export default function ImageInput({
         <div className="flex justify-between">
           <div>
             <button
+              type="button"
               className="underline cursor-pointer"
               onClick={() => inputRef.current!.click()}
             >
@@ -110,6 +117,7 @@ export default function ImageInput({
       </div>
       <Carousel className="w-fit">
         <CarouselContent>
+          <CarouselPrevious />
           {currentFiles.map((item, index) => (
             <CarouselItem key={index}>
               <div className="relative">
@@ -138,6 +146,7 @@ export default function ImageInput({
               </div>
             </CarouselItem>
           ))}
+          <CarouselNext />
         </CarouselContent>
       </Carousel>
     </div>
