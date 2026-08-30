@@ -57,13 +57,13 @@ export default function ImageInput({
           type="file"
           accept={accepts.join(",")}
           className="hidden"
-          {...props}
           onChange={(e) => {
             const filesArr = Array.from(e.target.files ?? []);
             setFiles(filesArr);
 
             onChange(e);
           }}
+          {...props}
         />
       </div>
       <Carousel className="w-fit">
