@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/refs */
 /* eslint-disable @next/next/no-img-element */
-import { ComponentProps, useRef, useState } from "react";
+import { ComponentProps, useEffect, useRef, useState } from "react";
 import { Input } from "../ui/input";
 import { cn } from "@/lib/utils";
 import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
@@ -17,8 +19,18 @@ export default function ImageInput({
   ...props
 }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [files, setFiles] = useState<File[]>([]);
+  const [refresh, setRefresh] = useState(true);
 
+  const currentFiles = inputRef.current?.files
+    ? Array.from(inputRef.current.files)
+    : [];
+
+  useEffect(() => {
+    return () => {
+      const objectUrls = currentFiles.map((file) => URL.createObjectURL(file));
+      objectUrls.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [refresh]);
   return (
     <div className="grid gap-2 ">
       <div
@@ -29,6 +41,8 @@ export default function ImageInput({
         tabIndex={0}
         onPaste={(e) => {
           e.preventDefault();
+          const input = inputRef.current!;
+          const prev = Array.from(input.files ?? []);
 
           const item = Array.from(e.clipboardData.items).find(
             (item) => item.kind === "file" && accepts.includes(item.type),
@@ -37,30 +51,33 @@ export default function ImageInput({
           const file = item?.getAsFile();
           if (!file) return;
 
-          const final = [...files, file];
-          setFiles(final);
+          const dt = new DataTransfer();
+          prev.forEach((file) => dt.items.add(file));
+          dt.items.add(file);
 
-          inputRef.current!.dispatchEvent(
-            new Event("change", { bubbles: true }),
-          );
+          input.files = dt.files;
+          input.dispatchEvent(new Event("change", { bubbles: true }));
         }}
 
         onDrop={(e) => {
           e.preventDefault();
+          const input = inputRef.current!;
+          const prev = Array.from(input.files ?? []);
+          const files = Array.from(e.dataTransfer.items)
+            .filter(
+              (item) => item.kind === "file" && accepts.includes(item.type),
+            )
+            .map((item) => item.getAsFile())
+            .filter((file): file is File => file !== null);
 
-          const item = Array.from(e.dataTransfer.items).find(
-            (item) => item.kind === "file" && accepts.includes(item.type),
-          );
+          if (files.length === 0) return;
 
-          const file = item?.getAsFile();
-          if (!file) return;
+          const dt = new DataTransfer();
+          prev.forEach((file) => dt.items.add(file));
+          files.forEach((file) => dt.items.add(file));
 
-          const final = [...files, file];
-          setFiles(final);
-
-          inputRef.current!.dispatchEvent(
-            new Event("change", { bubbles: true }),
-          );
+          input.files = dt.files;
+          input.dispatchEvent(new Event("change", { bubbles: true }));
         }}
 
         onDragOver={(e) => {
@@ -77,7 +94,7 @@ export default function ImageInput({
             </button>{" "}
             <span>or drag, paste here.</span>
           </div>
-          <span>{files.length == 0 ? "" : files.length}</span>
+          <div>{currentFiles.length == 0 ? "" : currentFiles.length}</div>
         </div>
         <Input
           ref={inputRef}
@@ -85,10 +102,7 @@ export default function ImageInput({
           accept={accepts.join(",")}
           className="hidden"
           onChange={(e) => {
-            const filesArr = Array.from(e.target.files ?? []);
-            const final: File[] = [...filesArr, ...files];
-            setFiles(final);
-
+            setRefresh(!refresh);
             onChange(e);
           }}
           {...props}
@@ -96,18 +110,22 @@ export default function ImageInput({
       </div>
       <Carousel className="w-fit">
         <CarouselContent>
-          {files.map((item, index) => (
+          {currentFiles.map((item, index) => (
             <CarouselItem key={index}>
               <div className="relative">
                 <Button
                   className={"absolute top-2 right-2"}
                   variant={"destructive"}
                   onClick={() => {
-                    setFiles((prev) => prev.filter((_, i) => i !== index));
+                    const input = inputRef.current!;
+                    const prev = Array.from(input.files ?? []);
+                    const fix = prev.filter((_, i) => i !== index);
 
-                    inputRef.current!.dispatchEvent(
-                      new Event("change", { bubbles: true }),
-                    );
+                    const dt = new DataTransfer();
+                    fix.forEach((file) => dt.items.add(file));
+
+                    input.files = dt.files;
+                    input.dispatchEvent(new Event("change", { bubbles: true }));
                   }}
                 >
                   X
