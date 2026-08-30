@@ -1,3 +1,4 @@
+"use client";
 import ToolTipButton from "@/components/registry/ToolTipButton";
 import { CatIcon } from "lucide-react";
 
@@ -25,7 +26,12 @@ export default function Page() {
               Meow
             </ToolTipButton>
           </div>
-          <h6 className="-mt-8 ml-3 text-sm">Tool Tip Button</h6>
+          <div className="-mt-12 ml-3 text-sm">
+            <h6>Tool Tip Button.</h6>
+            <p className="text-muted-foreground text-xs">
+              A button and a tooltip.
+            </p>
+          </div>
         </div>
       </div>
     </main>
