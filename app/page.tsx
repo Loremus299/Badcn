@@ -1,5 +1,7 @@
 "use client";
-import ToolTipButton from "@/components/registry/ToolTipButton";
+
+import ComponentShowcase from "@/components/compShow";
+import TooltipButton from "@/components/registry/ToolTipButton";
 import { CatIcon } from "lucide-react";
 
 export default function Page() {
@@ -11,7 +13,25 @@ export default function Page() {
           A Shadcn++ repository.
         </h3>
       </div>
-      <div className="min-h-screen grid max-w-7xl w-full grid-cols-3 gap-4 p-4"></div>
+      <div className="min-h-screen grid max-w-7xl w-full grid-cols-3 gap-4 p-4">
+        <ComponentShowcase
+          url="/tooltip-button"
+          name="Tooltip Button"
+          description="A button with tooltip and loading support."
+        >
+          <TooltipButton
+            tip={
+              <p>
+                This button will make you{" "}
+                <span className="text-destructive">Meow~</span>
+              </p>
+            }
+          >
+            <CatIcon />
+            Meow
+          </TooltipButton>
+        </ComponentShowcase>
+      </div>
     </main>
   );
 }
