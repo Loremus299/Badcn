@@ -15,14 +15,14 @@ export default function Show() {
             <span className="underline">click</span> on it.
           </p>
         }
-        props={{
-          onClick: async () => {
-            setIsLoading(true);
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-            setIsLoading(false);
-          },
+
+        onClick={async () => {
+          setIsLoading(true);
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+          setIsLoading(false);
         }}
-        isLoading={isLoading}
+
+        disabled={isLoading}
       >
         Button
       </TooltipButton>
