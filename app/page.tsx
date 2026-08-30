@@ -1,6 +1,7 @@
 "use client";
 
 import ComponentShowcase from "@/components/compShow";
+import ImageInput from "@/components/registry/imageInput";
 import LoadingButton from "@/components/registry/loadingButton";
 import TooltipButton from "@/components/registry/ToolTipButton";
 import { CatIcon } from "lucide-react";
@@ -38,6 +39,13 @@ export default function Page() {
             <CatIcon />
             Meow
           </TooltipButton>
+        </ComponentShowcase>
+        <ComponentShowcase
+          url="/image-input"
+          name="Image Input."
+          description="Image input with support for pasting, drag & drop, preview."
+        >
+          <ImageInput />
         </ComponentShowcase>
       </div>
     </main>

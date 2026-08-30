@@ -5,11 +5,9 @@ export default function Page() {
     <div className="grid place-items-center p-8">
       <div className="w-full max-w-xl grid gap-4">
         <div>
-          <h1 className="text-md tracking-tight font-semibold">
-            Loading Button.
-          </h1>
+          <h1 className="text-md tracking-tight font-semibold">Image Input.</h1>
           <h3 className="text-sm text-muted-foreground">
-            A button with support for loading state.
+            Image input with support for pasting, drag & drop, preview.
           </h3>
         </div>
         <Show />
