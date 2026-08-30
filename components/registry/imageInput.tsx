@@ -3,6 +3,7 @@ import { ComponentProps, useRef, useState } from "react";
 import { Input } from "../ui/input";
 import { cn } from "@/lib/utils";
 import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
+import { Button } from "../ui/button";
 
 type Props = Omit<Omit<ComponentProps<typeof Input>, "accept">, "className"> & {
   accepts?: string[];
@@ -70,13 +71,18 @@ export default function ImageInput({
           e.preventDefault();
         }}
       >
-        <button
-          className="underline cursor-pointer"
-          onClick={() => inputRef.current!.click()}
-        >
-          Choose an image
-        </button>{" "}
-        <span>or drag, paste here.</span>
+        <div className="flex justify-between">
+          <div>
+            <button
+              className="underline cursor-pointer"
+              onClick={() => inputRef.current!.click()}
+            >
+              Choose an image
+            </button>{" "}
+            <span>or drag, paste here.</span>
+          </div>
+          <span>{files.length}</span>
+        </div>
         <Input
           ref={inputRef}
           type="file"
@@ -96,11 +102,22 @@ export default function ImageInput({
         <CarouselContent>
           {files.map((item, index) => (
             <CarouselItem key={index}>
-              <img
-                alt={item.name}
-                src={URL.createObjectURL(item)}
-                className="rounded-md border"
-              />
+              <div className="relative">
+                <Button
+                  className={"absolute top-2 right-2"}
+                  variant={"destructive"}
+                  onClick={() =>
+                    setFiles((prev) => prev.filter((_, i) => i !== index))
+                  }
+                >
+                  X
+                </Button>
+                <img
+                  alt={item.name}
+                  src={URL.createObjectURL(item)}
+                  className="rounded-md border"
+                />
+              </div>
             </CarouselItem>
           ))}
         </CarouselContent>
