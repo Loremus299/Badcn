@@ -28,7 +28,6 @@ export default function ImageInput({
         )}
         tabIndex={0}
         onPaste={(e) => {
-          const input = inputRef.current!;
           e.preventDefault();
 
           const item = Array.from(e.clipboardData.items).find(
@@ -38,17 +37,15 @@ export default function ImageInput({
           const file = item?.getAsFile();
           if (!file) return;
 
-          const dataTransfer = new DataTransfer();
-          files.forEach((file) => dataTransfer.items.add(file));
-          dataTransfer.items.add(file);
+          const final = [...files, file];
+          setFiles(final);
 
-          input.files = dataTransfer.files;
-
-          input.dispatchEvent(new Event("change", { bubbles: true }));
+          inputRef.current!.dispatchEvent(
+            new Event("change", { bubbles: true }),
+          );
         }}
 
         onDrop={(e) => {
-          const input = inputRef.current!;
           e.preventDefault();
 
           const item = Array.from(e.dataTransfer.items).find(
@@ -58,13 +55,12 @@ export default function ImageInput({
           const file = item?.getAsFile();
           if (!file) return;
 
-          const dataTransfer = new DataTransfer();
-          files.forEach((file) => dataTransfer.items.add(file));
-          dataTransfer.items.add(file);
+          const final = [...files, file];
+          setFiles(final);
 
-          input.files = dataTransfer.files;
-
-          input.dispatchEvent(new Event("change", { bubbles: true }));
+          inputRef.current!.dispatchEvent(
+            new Event("change", { bubbles: true }),
+          );
         }}
 
         onDragOver={(e) => {
@@ -81,7 +77,7 @@ export default function ImageInput({
             </button>{" "}
             <span>or drag, paste here.</span>
           </div>
-          <span>{files.length}</span>
+          <span>{files.length == 0 ? "" : files.length}</span>
         </div>
         <Input
           ref={inputRef}
@@ -106,9 +102,13 @@ export default function ImageInput({
                 <Button
                   className={"absolute top-2 right-2"}
                   variant={"destructive"}
-                  onClick={() =>
-                    setFiles((prev) => prev.filter((_, i) => i !== index))
-                  }
+                  onClick={() => {
+                    setFiles((prev) => prev.filter((_, i) => i !== index));
+
+                    inputRef.current!.dispatchEvent(
+                      new Event("change", { bubbles: true }),
+                    );
+                  }}
                 >
                   X
                 </Button>

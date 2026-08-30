@@ -7,7 +7,14 @@ export default function Show() {
   return (
     <ComponentShowcaseOnly>
       <div className="w-sm">
-        <ImageInput multiple />
+        <ImageInput
+          multiple
+          onChange={(e) => {
+            Array.from(e.currentTarget.files!).forEach((file) =>
+              console.log(file.name),
+            );
+          }}
+        />
       </div>
     </ComponentShowcaseOnly>
   );
