@@ -38,11 +38,36 @@ export default function ImageInput({
           if (!file) return;
 
           const dataTransfer = new DataTransfer();
+          files.forEach((file) => dataTransfer.items.add(file));
           dataTransfer.items.add(file);
 
           input.files = dataTransfer.files;
 
           input.dispatchEvent(new Event("change", { bubbles: true }));
+        }}
+
+        onDrop={(e) => {
+          const input = inputRef.current!;
+          e.preventDefault();
+
+          const item = Array.from(e.dataTransfer.items).find(
+            (item) => item.kind === "file" && accepts.includes(item.type),
+          );
+
+          const file = item?.getAsFile();
+          if (!file) return;
+
+          const dataTransfer = new DataTransfer();
+          files.forEach((file) => dataTransfer.items.add(file));
+          dataTransfer.items.add(file);
+
+          input.files = dataTransfer.files;
+
+          input.dispatchEvent(new Event("change", { bubbles: true }));
+        }}
+
+        onDragOver={(e) => {
+          e.preventDefault();
         }}
       >
         <button
@@ -59,7 +84,8 @@ export default function ImageInput({
           className="hidden"
           onChange={(e) => {
             const filesArr = Array.from(e.target.files ?? []);
-            setFiles(filesArr);
+            const final: File[] = [...filesArr, ...files];
+            setFiles(final);
 
             onChange(e);
           }}
