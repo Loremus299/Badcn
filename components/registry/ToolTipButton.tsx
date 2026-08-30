@@ -1,10 +1,24 @@
 import { ComponentProps } from "react";
-import { Button } from "../ui/button";
-import { TooltipContent } from "../ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import LoadingButton from "./loadingButton";
 
-type Props = ComponentProps<typeof Button> & {
+type Props = ComponentProps<typeof LoadingButton> & {
   tip?: React.ReactNode;
   tipProps?: ComponentProps<typeof TooltipContent>;
 };
 
-export default function TooltipButton() {}
+export default function TooltipButton({
+  tip,
+  tipProps,
+  children,
+  ...props
+}: Props) {
+  return (
+    <Tooltip>
+      <TooltipTrigger
+        render={<LoadingButton {...props}>{children}</LoadingButton>}
+      ></TooltipTrigger>
+      <TooltipContent {...tipProps}>{tip}</TooltipContent>
+    </Tooltip>
+  );
+}
