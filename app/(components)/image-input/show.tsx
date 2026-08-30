@@ -6,7 +6,9 @@ import ImageInput from "@/components/registry/imageInput";
 export default function Show() {
   return (
     <ComponentShowcaseOnly>
-      <ImageInput />
+      <div className="w-sm">
+        <ImageInput multiple />
+      </div>
     </ComponentShowcaseOnly>
   );
 }

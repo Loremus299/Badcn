@@ -62,14 +62,14 @@ export default function ImageInput({
           }}
         />
       </div>
-      <Carousel className={cn("w-sm", className)}>
+      <Carousel className="w-fit">
         <CarouselContent>
           {files.map((item, index) => (
             <CarouselItem key={index}>
               <img
                 alt={item.name}
                 src={URL.createObjectURL(item)}
-                className={cn("w-sm rounded-md border", className)}
+                className="rounded-md border"
               />
             </CarouselItem>
           ))}
