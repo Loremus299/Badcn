@@ -138,11 +138,13 @@ export default function ImageInput({
                 >
                   X
                 </Button>
-                <img
-                  alt={item.name}
-                  src={URL.createObjectURL(item)}
-                  className="rounded-md border"
-                />
+                <div className="aspect-video overflow-y-scroll">
+                  <img
+                    alt={item.name}
+                    src={URL.createObjectURL(item)}
+                    className="rounded-md border w-full"
+                  />
+                </div>
               </div>
             </CarouselItem>
           ))}

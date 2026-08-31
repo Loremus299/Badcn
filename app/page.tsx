@@ -45,7 +45,7 @@ export default function Page() {
           name="Image Input."
           description="Image input with support for pasting, drag & drop, preview."
         >
-          <ImageInput />
+          <ImageInput className="mt-2" />
         </ComponentShowcase>
       </div>
     </main>

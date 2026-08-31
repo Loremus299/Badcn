@@ -9,7 +9,7 @@ export default function Show() {
   return (
     <>
       <ComponentShowcaseOnly>
-        <div className="w-sm">
+        <div className="max-w-sm w-full p-4">
           <ImageInput
             multiple
             onChange={(e) => setData(Array.from(e.currentTarget.files!))}

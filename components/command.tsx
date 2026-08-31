@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "./ui/button";
@@ -24,19 +25,30 @@ export default function Command({ name }: { name: string }) {
   const url = useRef("");
 
   useEffect(() => {
-    const newrl = `${prefix(currentOption)} shadcn@latest addhttps://cn.loremus.gay/r/${name}.json`;
+    const lastOption = window.localStorage.getItem("option");
+
+    if (lastOption) {
+      setCurrentOption(lastOption as "npm" | "pnpm" | "yarn" | "bun");
+    }
+  }, []);
+
+  useEffect(() => {
+    const newrl = `${prefix(currentOption)} shadcn@latest add https://cn.loremus.gay/r/${name}.json`;
     url.current = newrl;
   }, [currentOption, name]);
 
   return (
-    <div className="bg-card p-2 border rounded-md overflow-y-scroll grid gap-2">
+    <div className="bg-card p-2 border rounded-md grid gap-2 overflow-x-hidden">
       <div className="flex justify-between">
         <div className="flex gap-2">
           <Button
             variant={"outline"}
             size={"xs"}
             className={"rounded-sm"}
-            onClick={() => setCurrentOption("npm")}
+            onClick={() => {
+              setCurrentOption("npm");
+              window.localStorage.setItem("option", "npm");
+            }}
           >
             npm
           </Button>
@@ -44,7 +56,10 @@ export default function Command({ name }: { name: string }) {
             variant={"outline"}
             size={"xs"}
             className={"rounded-sm"}
-            onClick={() => setCurrentOption("pnpm")}
+            onClick={() => {
+              setCurrentOption("pnpm");
+              window.localStorage.setItem("option", "pnpm");
+            }}
           >
             pnpm
           </Button>
@@ -52,7 +67,10 @@ export default function Command({ name }: { name: string }) {
             variant={"outline"}
             size={"xs"}
             className={"rounded-sm"}
-            onClick={() => setCurrentOption("yarn")}
+            onClick={() => {
+              setCurrentOption("yarn");
+              window.localStorage.setItem("option", "yarn");
+            }}
           >
             yarn
           </Button>
@@ -60,7 +78,10 @@ export default function Command({ name }: { name: string }) {
             variant={"outline"}
             size={"xs"}
             className={"rounded-sm"}
-            onClick={() => setCurrentOption("bun")}
+            onClick={() => {
+              setCurrentOption("bun");
+              window.localStorage.setItem("option", "bun");
+            }}
           >
             bun
           </Button>
