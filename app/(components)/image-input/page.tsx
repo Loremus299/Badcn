@@ -1,3 +1,4 @@
+import Command from "@/components/command";
 import Show from "./show";
 
 export default function Page() {
@@ -11,6 +12,8 @@ export default function Page() {
           </h3>
         </div>
         <Show />
+
+        <Command name="image-input" />
       </div>
     </div>
   );
