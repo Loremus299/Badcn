@@ -10,7 +10,7 @@
       "registryDependencies": ["button"],
       "files": [
         {
-          "path": "components/registry/loadingButton.tsx",
+          "path": "components/badcn/loadingButton.tsx",
           "type": "registry:component"
         }
       ]
@@ -22,7 +22,7 @@
       "registryDependencies": ["button", "loading-button", "tooltip"],
       "files": [
         {
-          "path": "components/registry/toolTipButton.tsx",
+          "path": "components/badcn/toolTipButton.tsx",
           "type": "registry:component"
         }
       ]
@@ -34,7 +34,7 @@
       "registryDependencies": ["button", "input", "carousel"],
       "files": [
         {
-          "path": "components/registry/imageInput.tsx",
+          "path": "components/badcn/imageInput.tsx",
           "type": "registry:component"
         }
       ]
