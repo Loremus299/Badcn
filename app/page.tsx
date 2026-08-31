@@ -3,7 +3,7 @@
 import ComponentShowcase from "@/components/compShow";
 import ImageInput from "@/components/registry/imageInput";
 import LoadingButton from "@/components/registry/loadingButton";
-import TooltipButton from "@/components/registry/ToolTipButton";
+import TooltipButton from "@/components/registry/toolTipButton";
 import { CatIcon } from "lucide-react";
 
 export default function Page() {
@@ -12,7 +12,7 @@ export default function Page() {
       <div className="text-center">
         <h1 className="text-3xl font-semibold tracking-tighter">Badcn</h1>
         <h3 className="text-muted-foreground tracking-tight">
-          A Shadcn++ repository.
+          A Shadcn++ repository. Requires base UI.
         </h3>
       </div>
       <div className="min-h-screen grid max-w-7xl w-full grid-cols-3 gap-4 p-4">
