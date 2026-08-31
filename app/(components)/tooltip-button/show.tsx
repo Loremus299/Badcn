@@ -1,7 +1,7 @@
 "use client";
 
 import ComponentShowcaseOnly from "@/components/compShowOnly";
-import TooltipButton from "@/components/registry/toolTipButton";
+import TooltipButton from "@/components/badcn/toolTipButton";
 import { useState } from "react";
 
 export default function Show() {

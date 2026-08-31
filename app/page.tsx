@@ -1,9 +1,9 @@
 "use client";
 
 import ComponentShowcase from "@/components/compShow";
-import ImageInput from "@/components/registry/imageInput";
-import LoadingButton from "@/components/registry/loadingButton";
-import TooltipButton from "@/components/registry/toolTipButton";
+import ImageInput from "@/components/badcn/imageInput";
+import LoadingButton from "@/components/badcn/loadingButton";
+import TooltipButton from "@/components/badcn/toolTipButton";
 import { CatIcon } from "lucide-react";
 
 export default function Page() {

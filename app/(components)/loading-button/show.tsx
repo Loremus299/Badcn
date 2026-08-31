@@ -1,7 +1,7 @@
 "use client";
 
 import ComponentShowcaseOnly from "@/components/compShowOnly";
-import LoadingButton from "@/components/registry/loadingButton";
+import LoadingButton from "@/components/badcn/loadingButton";
 import { useState } from "react";
 
 export default function Show() {

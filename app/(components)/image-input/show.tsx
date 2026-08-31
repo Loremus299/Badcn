@@ -1,7 +1,7 @@
 "use client";
 
 import ComponentShowcaseOnly from "@/components/compShowOnly";
-import ImageInput from "@/components/registry/imageInput";
+import ImageInput from "@/components/badcn/imageInput";
 import { useState } from "react";
 
 export default function Show() {
