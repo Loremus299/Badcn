@@ -5,37 +5,43 @@
   "items": [
     {
       "name": "loading-button",
+      "description": "A button with support for loading state.",
       "type": "registry:component",
       "dependencies": [],
       "registryDependencies": ["button"],
       "files": [
         {
           "path": "components/badcn/loadingButton.tsx",
-          "type": "registry:component"
+          "type": "registry:component",
+          "demo": "components/badcn/showcase/loadingButton.tsx"
         }
       ]
     },
     {
       "name": "tooltip-button",
+      "description": "A button with tooltip and loading support.",
       "type": "registry:component",
       "dependencies": [],
       "registryDependencies": ["button", "loading-button", "tooltip"],
       "files": [
         {
-          "path": "components/badcn/toolTipButton.tsx",
-          "type": "registry:component"
+          "path": "components/badcn/tooltipButton.tsx",
+          "type": "registry:component",
+          "demo": "components/badcn/showcase/tooltipButton.tsx"
         }
       ]
     },
     {
       "name": "image-input",
+      "description": "Image input with support for pasting, drag & drop, preview.",
       "type": "registry:component",
       "dependencies": [],
       "registryDependencies": ["button", "input", "carousel"],
       "files": [
         {
           "path": "components/badcn/imageInput.tsx",
-          "type": "registry:component"
+          "type": "registry:component",
+          "demo": "components/badcn/showcase/imageInput.tsx"
         }
       ]
     }
