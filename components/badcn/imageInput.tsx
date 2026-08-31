@@ -41,7 +41,7 @@ export default function ImageInput({
     <div className="grid gap-2 ">
       <div
         className={cn(
-          "text-sm p-3 rounded-md border cursor-crosshair",
+          "text-sm p-3 rounded-md border cursor-crosshair bg-muted",
           className,
         )}
         tabIndex={0}

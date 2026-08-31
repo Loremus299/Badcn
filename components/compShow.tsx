@@ -13,7 +13,7 @@ export default function ComponentShowcase({
 }) {
   return (
     <Link href={url}>
-      <div className="w-full aspect-video border bg-muted rounded-md @container grid place-items-center">
+      <div className="w-full aspect-video border bg-card rounded-md @container grid place-items-center">
         {children}
       </div>
       <div className="-mt-12 ml-3 text-sm">
