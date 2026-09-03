@@ -1,6 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/refs */
-/* eslint-disable @next/next/no-img-element */
 import { ComponentProps, useEffect, useRef, useState } from "react";
 import { Input } from "../ui/input";
 import { cn } from "@/lib/utils";
@@ -13,14 +13,14 @@ import {
 } from "../ui/carousel";
 import { Button } from "../ui/button";
 
-type Props = Omit<Omit<ComponentProps<typeof Input>, "accept">, "className"> & {
+type Props = Omit<ComponentProps<typeof Input>, "accept"> & {
   accepts?: string[];
-  className?: string;
 };
 
 export default function ImageInput({
-  accepts = ["image/png", "image/jpeg", "image/gif", "image/webp"],
+  accepts = ["image/png", "image/jpeg", "image/gif"],
   className,
+  multiple,
   onChange = () => null,
   ...props
 }: Props) {
@@ -64,7 +64,6 @@ export default function ImageInput({
           input.files = dt.files;
           input.dispatchEvent(new Event("change", { bubbles: true }));
         }}
-
         onDrop={(e) => {
           e.preventDefault();
           const input = inputRef.current!;
@@ -85,7 +84,6 @@ export default function ImageInput({
           input.files = dt.files;
           input.dispatchEvent(new Event("change", { bubbles: true }));
         }}
-
         onDragOver={(e) => {
           e.preventDefault();
         }}
@@ -101,7 +99,11 @@ export default function ImageInput({
             </button>{" "}
             <span>or drag, paste here.</span>
           </div>
-          <div>{currentFiles.length == 0 ? "" : currentFiles.length}</div>
+          {multiple ? (
+            <div>{currentFiles.length == 0 ? "" : currentFiles.length}</div>
+          ) : (
+            ""
+          )}
         </div>
         <Input
           ref={inputRef}
@@ -109,48 +111,73 @@ export default function ImageInput({
           accept={accepts.join(",")}
           className="hidden"
           onChange={(e) => {
+            if (!multiple) {
+              const input = inputRef.current!;
+              const arr = Array.from(input.files ?? []);
+              const first = arr[arr.length - 1];
+
+              const dt = new DataTransfer();
+              dt.items.add(first);
+
+              input.files = dt.files;
+            }
             setRefresh(!refresh);
+
             onChange(e);
           }}
           {...props}
         />
       </div>
-      <Carousel className="w-fit">
-        {currentFiles.length !== 0 && <CarouselPrevious />}
-        <CarouselContent>
-          {currentFiles.map((item, index) => (
-            <CarouselItem key={index}>
-              <div className="relative">
-                <Button
-                  className={"absolute top-2 right-2"}
-                  variant={"destructive"}
-                  onClick={() => {
-                    const input = inputRef.current!;
-                    const prev = Array.from(input.files ?? []);
-                    const fix = prev.filter((_, i) => i !== index);
+      {multiple ? (
+        <Carousel className="w-fit">
+          {currentFiles.length !== 0 && <CarouselPrevious />}
+          <CarouselContent>
+            {currentFiles.map((item, index) => (
+              <CarouselItem key={index}>
+                <div className="relative">
+                  <Button
+                    className={"absolute top-2 right-2"}
+                    variant={"destructive"}
+                    onClick={() => {
+                      const input = inputRef.current!;
+                      const prev = Array.from(input.files ?? []);
+                      const fix = prev.filter((_, i) => i !== index);
 
-                    const dt = new DataTransfer();
-                    fix.forEach((file) => dt.items.add(file));
+                      const dt = new DataTransfer();
+                      fix.forEach((file) => dt.items.add(file));
 
-                    input.files = dt.files;
-                    input.dispatchEvent(new Event("change", { bubbles: true }));
-                  }}
-                >
-                  X
-                </Button>
-                <div className="aspect-video overflow-y-scroll">
-                  <img
-                    alt={item.name}
-                    src={URL.createObjectURL(item)}
-                    className="rounded-md border w-full"
-                  />
+                      input.files = dt.files;
+                      input.dispatchEvent(
+                        new Event("change", { bubbles: true }),
+                      );
+                    }}
+                  >
+                    X
+                  </Button>
+                  <div className="aspect-video overflow-y-scroll border rounded-md border-dashed">
+                    <img
+                      alt={item.name}
+                      src={URL.createObjectURL(item)}
+                      className="rounded-md border w-full"
+                    />
+                  </div>
                 </div>
-              </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        {currentFiles.length !== 0 && <CarouselNext />}
-      </Carousel>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          {currentFiles.length !== 0 && <CarouselNext />}
+        </Carousel>
+      ) : currentFiles[0] ? (
+        <div>
+          <img
+            alt={currentFiles[0]?.name}
+            src={URL.createObjectURL(currentFiles[0])}
+            className="rounded-md border w-full border-dashed"
+          />
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 }
