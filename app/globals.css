@@ -136,3 +136,13 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+@keyframes space-in {
+  from {
+    letter-spacing: 0.1em;
+  }
+}
+
+.animate-space-in {
+  animation: space-in 0.25s forwards;
+}
