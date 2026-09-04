@@ -18,7 +18,7 @@ type Props = Omit<ComponentProps<typeof Input>, "accept"> & {
 };
 
 export default function ImageInput({
-  accepts = ["image/png", "image/jpeg", "image/gif"],
+  accepts = ["image/png", "image/jpeg", "image/gif", "image/webp"],
   className,
   multiple,
   onChange = () => null,
@@ -37,6 +37,7 @@ export default function ImageInput({
       objectUrls.forEach((url) => URL.revokeObjectURL(url));
     };
   }, [refresh]);
+
   return (
     <div className="grid gap-2 ">
       <div
