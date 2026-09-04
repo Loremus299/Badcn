@@ -7,9 +7,9 @@ export default async function Code({ children }: { children: string }) {
   });
 
   return (
-    <div className="p-2 bg-[#222222] rounded-md border">
+    <div className="p-2 bg-[#222222] rounded-md border w-screen max-w-xl">
       <div
-        className="text-sm w-xl overflow-x-scroll"
+        className="text-sm overflow-x-scroll"
         dangerouslySetInnerHTML={{ __html: html }}
       />
     </div>

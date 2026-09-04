@@ -38,7 +38,7 @@ export default function Command({ name }: { name: string }) {
   }, [currentOption, name]);
 
   return (
-    <div className="bg-card p-2 border rounded-md grid gap-2 overflow-x-hidden">
+    <div className="bg-card p-2 border rounded-md grid gap-2 overflow-x-scroll portrait:w-screen w-full max-w-xl">
       <div className="flex justify-between">
         <div className="flex gap-2">
           <Button
