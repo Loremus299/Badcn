@@ -4,7 +4,7 @@ import data from "@/registry.json";
 
 export default function Showcase() {
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="grid xl:grid-cols-3 portrait:grid-cols-1 gap-4 portrait:gap-8">
       {data.items.map((item) => (
         <ComponentShowcase
           key={item.name}
