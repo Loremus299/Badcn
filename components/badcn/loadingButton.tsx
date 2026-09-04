@@ -1,16 +1,17 @@
 import { ComponentProps } from "react";
 import { Button } from "../ui/button";
 
-type Props = ComponentProps<typeof Button>;
+type Props = ComponentProps<typeof Button> & { loading?: boolean };
 
 export default function LoadingButton({
   children,
-  disabled = false,
+  loading,
+  disabled,
   ...props
 }: Props) {
   return (
-    <Button data-slot="tooltip-trigger" {...props} disabled={disabled}>
-      {disabled ? <p>Loading...</p> : children}
+    <Button {...props} disabled={loading || disabled}>
+      {loading ? <p>Loading...</p> : children}
     </Button>
   );
 }

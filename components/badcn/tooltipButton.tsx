@@ -16,7 +16,11 @@ export default function TooltipButton({
   return (
     <Tooltip>
       <TooltipTrigger
-        render={<LoadingButton {...props}>{children}</LoadingButton>}
+        render={
+          <LoadingButton {...props} data-slot="tooltip-trigger">
+            {children}
+          </LoadingButton>
+        }
       ></TooltipTrigger>
       <TooltipContent {...tipProps}>{tip}</TooltipContent>
     </Tooltip>
