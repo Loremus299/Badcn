@@ -1,5 +1,9 @@
 import ImageInput from "../imageInput";
 
 export default function ImageInputDemo() {
-  return <ImageInput multiple />;
+  return (
+    <div className="p-8">
+      <ImageInput multiple />
+    </div>
+  );
 }

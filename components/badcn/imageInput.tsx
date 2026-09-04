@@ -109,6 +109,7 @@ export default function ImageInput({
         <Input
           ref={inputRef}
           type="file"
+          multiple
           accept={accepts.join(",")}
           className="hidden"
           onChange={(e) => {

@@ -5,6 +5,12 @@ import data from "@/registry.json";
 import { readFileSync } from "fs";
 import Code from "./_components/code";
 
+export async function generateStaticParams() {
+  return data.items.map((item) => ({
+    component: item.name,
+  }));
+}
+
 export default async function Page({
   params,
 }: {
@@ -45,7 +51,7 @@ export default async function Page({
           <h5 className="tracking-tight font-semibold">Dependencies.</h5>
           <div className="bg-card border p-2 rounded-md">
             {details.registryDependencies.map((item) => (
-              <div key={item}>
+              <div key={item} className="pl-1">
                 -{" "}
                 {item
                   .split("-")
