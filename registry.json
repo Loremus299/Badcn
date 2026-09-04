@@ -33,7 +33,7 @@
     },
     {
       "name": "image-input",
-      "description": "Image input with support for pasting, drag & drop, preview.",
+      "description": "Image input with paste, drag & drop, preview.",
       "type": "registry:component",
       "dependencies": [],
       "registryDependencies": ["button", "input", "carousel"],
