@@ -8,7 +8,10 @@ export default async function Code({ children }: { children: string }) {
 
   return (
     <div className="p-2 bg-[#222222] rounded-md border">
-      <div className="text-sm" dangerouslySetInnerHTML={{ __html: html }} />
+      <div
+        className="text-sm w-xl overflow-x-scroll"
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
     </div>
   );
 }
