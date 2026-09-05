@@ -57,7 +57,7 @@
     {
       "name": "from-now-hover-card",
       "description": "Hover card to see dates in UTC and user's timezone.",
-      "author": "Gurpal",
+      "author": "Gurpal Singh",
       "authorContact": "https://www.procrastinator.fyi/en",
       "authorImage": "https://avatars.githubusercontent.com/u/76196237",
       "type": "registry:component",

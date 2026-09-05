@@ -1,9 +1,11 @@
+/* eslint-disable @next/next/no-img-element */
 import Command from "@/components/command";
 import ComponentShowcaseOnly from "@/components/compShowOnly";
 import DemoRenderer from "@/components/demoRenderer";
 import data from "@/registry.json";
 import { readFileSync } from "fs";
 import Code from "./_components/code";
+import Link from "next/link";
 
 export async function generateStaticParams() {
   return data.items.map((item) => ({
@@ -49,8 +51,12 @@ export default async function Page({
             <Code>{readFileSync(details.files[0].demo, "utf-8")}</Code>
           </div>
           <div className="grid gap-3">
+            <h5 className="tracking-tight font-semibold">Source code.</h5>
+            <Code>{readFileSync(details.files[0].path, "utf-8")}</Code>
+          </div>
+          <div className="grid gap-3">
             <h5 className="tracking-tight font-semibold">Dependencies.</h5>
-            <div className="bg-card border p-2 rounded-md">
+            <div className="bg-card border p-2 rounded-md text-sm">
               {details.registryDependencies.map((item) => (
                 <div key={item} className="pl-1">
                   -{" "}
@@ -63,8 +69,19 @@ export default async function Page({
             </div>
           </div>
           <div className="grid gap-3">
-            <h5 className="tracking-tight font-semibold">Source code.</h5>
-            <Code>{readFileSync(details.files[0].path, "utf-8")}</Code>
+            <h5 className="tracking-tight font-semibold">Author.</h5>
+            <Link
+              target="_blank"
+              href={details.authorContact}
+              className="flex gap-2 items-center text-sm bg-card p-2 rounded-md border"
+            >
+              <img
+                src={details.authorImage}
+                alt={`${details.author} profile picture`}
+                className="w-6 rounded-full"
+              />
+              {details.author}
+            </Link>
           </div>
         </main>
       </div>
