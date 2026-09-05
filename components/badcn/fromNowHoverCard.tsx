@@ -23,7 +23,7 @@ type Props = ComponentProps<"span"> & {
 
 export function FromNowHoverCard({
   date = new Date(),
-  display = ["unix", "local", "utc"],
+  display = ["local", "utc", "unix"],
   format = "MMM DD, YYYY, HH:mm:ss",
   className,
 }: Props) {
