@@ -6,6 +6,8 @@
     {
       "name": "loading-button",
       "description": "A button with support for loading state.",
+      "author": "Loremus",
+      "authorContact": "https://web.loremus.gay/",
       "type": "registry:component",
       "dependencies": [],
       "registryDependencies": ["button"],
@@ -20,6 +22,8 @@
     {
       "name": "tooltip-button",
       "description": "A button with tooltip and loading support.",
+      "author": "Loremus",
+      "authorContact": "https://web.loremus.gay/",
       "type": "registry:component",
       "dependencies": [],
       "registryDependencies": ["button", "loading-button", "tooltip"],
@@ -34,6 +38,8 @@
     {
       "name": "image-input",
       "description": "Image input with paste, drag & drop, preview.",
+      "author": "Loremus",
+      "authorContact": "https://web.loremus.gay/",
       "type": "registry:component",
       "dependencies": [],
       "registryDependencies": ["button", "input", "carousel"],
@@ -48,6 +54,8 @@
     {
       "name": "from-now-hover-card",
       "description": "Hover card to see dates in UTC and user's timezone.",
+      "author": "Gurpal",
+      "authorContact": "https://www.procrastinator.fyi/en",
       "type": "registry:component",
       "dependencies": ["dayjs"],
       "registryDependencies": ["hover-card"],
