@@ -15,10 +15,15 @@ dayjs.extend(relativeTime);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-type Props = ComponentProps<"span"> & { date: Date | string };
+type Props = ComponentProps<"span"> & { date: Date | string; format: string };
 
-export function FromNowHoverCard({ date, className }: Props) {
+export function FromNowHoverCard({
+  date,
+  format = "MMM DD, YYYY, HH:mm:ss",
+  className,
+}: Props) {
   const [tz, setTz] = useState<string>("UTC");
+
   useEffect(() => {
     if (typeof window !== "undefined" && Intl?.DateTimeFormat) {
       setTz(Intl.DateTimeFormat().resolvedOptions().timeZone);
@@ -26,8 +31,8 @@ export function FromNowHoverCard({ date, className }: Props) {
   }, []);
 
   const d = dayjs(date);
-  const utcString = d.utc().format("MMM DD, YYYY, HH:mm:ss");
-  const localString = d.tz(tz).format("MMM DD, YYYY, HH:mm:ss");
+  const utcString = d.utc().format(format);
+  const localString = d.tz(tz).format(format);
   const timestamp = d.valueOf();
 
   return (
