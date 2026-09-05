@@ -15,10 +15,15 @@ dayjs.extend(relativeTime);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-type Props = ComponentProps<"span"> & { date?: Date | string; format?: string };
+type Props = ComponentProps<"span"> & {
+  date?: Date | string;
+  format?: string;
+  display?: ("utc" | "local" | "unix")[];
+};
 
 export function FromNowHoverCard({
   date = new Date(),
+  display = ["local", "utc", "unix"],
   format = "MMM DD, YYYY, HH:mm:ss",
   className,
 }: Props) {
@@ -47,16 +52,36 @@ export function FromNowHoverCard({
           {d.fromNow()}
         </span>
       </HoverCardTrigger>
-      <HoverCardContent className="text-xs">
-        <div className="flex flex-col gap-1">
-          <div>
-            <b>{tz}</b>: {localString}
-          </div>
-          <div>
-            <b>UTC</b>: {utcString}
-          </div>
-          <div>
-            <b>Timestamp</b>: {timestamp}
+      <HoverCardContent className="text-xs tracking-wide w-fit whitespace-pre">
+        <div className="flex gap-2">
+          <div className="flex flex-col gap-1 text-xs tracking-wide w-fit">
+            {display.map((type) => {
+              if (type === "unix") {
+                return (
+                  <div key="unix" className="flex gap-4 justify-between">
+                    <span>{timestamp}</span>
+                    <span className="text-muted-foreground">(Unix)</span>
+                  </div>
+                );
+              }
+              if (type === "local") {
+                return (
+                  <div key="local" className="flex gap-4 justify-between">
+                    <span>{localString}</span>
+                    <span className="text-muted-foreground">({tz})</span>
+                  </div>
+                );
+              }
+              if (type === "utc") {
+                return (
+                  <div key="utc" className="flex gap-4 justify-between">
+                    <span>{utcString}</span>
+                    <span className="text-muted-foreground">(UTC)</span>
+                  </div>
+                );
+              }
+              return null;
+            })}
           </div>
         </div>
       </HoverCardContent>
