@@ -3,23 +3,21 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
-import { useEffect, useState } from "react";
+import { ComponentProps, useEffect, useState } from "react";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "../ui/hover-card";
+import { cn } from "@/lib/utils";
 
 dayjs.extend(relativeTime);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-interface FromNowHoverCardProps {
-  date: string | Date;
-  className?: string;
-}
+type Props = ComponentProps<"span"> & { date: Date | string };
 
-export function FromNowHoverCard({ date, className }: FromNowHoverCardProps) {
+export function FromNowHoverCard({ date, className }: Props) {
   const [tz, setTz] = useState<string>("UTC");
   useEffect(() => {
     if (typeof window !== "undefined" && Intl?.DateTimeFormat) {
@@ -35,7 +33,14 @@ export function FromNowHoverCard({ date, className }: FromNowHoverCardProps) {
   return (
     <HoverCard>
       <HoverCardTrigger>
-        <span className={className}>{d.fromNow()}</span>
+        <span
+          className={cn(
+            "p-4 pt-2 pb-2 bg-muted hover:bg-muted/50 transition duration-300 rounded-md",
+            className,
+          )}
+        >
+          {d.fromNow()}
+        </span>
       </HoverCardTrigger>
       <HoverCardContent className="text-xs">
         <div className="flex flex-col gap-1">

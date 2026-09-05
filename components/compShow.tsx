@@ -18,7 +18,12 @@ export default function ComponentShowcase({
       </div>
       <Link href={url}>
         <div className="-mt-12 text-sm">
-          <h6 className="ml-3">{name}</h6>
+          <h6 className="ml-3">
+            {name
+              .split("-")
+              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(" ")}
+          </h6>
           <p className="ml-3 text-muted-foreground text-xs">{description}</p>
         </div>
       </Link>
