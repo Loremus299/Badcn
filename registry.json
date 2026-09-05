@@ -44,6 +44,20 @@
           "demo": "components/badcn/showcase/imageInput.tsx"
         }
       ]
+    },
+    {
+      "name": "from-now-hover-card",
+      "description": "Hover card to see dates in UTC and user's timezone.",
+      "type": "registry:component",
+      "dependencies": ["dayjs"],
+      "registryDependencies": ["hover-card"],
+      "files": [
+        {
+          "path": "components/badcn/from-now-hover-card.tsx",
+          "type": "registry:component",
+          "demo": "components/badcn/showcase/from-now-hover-card.tsx"
+        }
+      ]
     }
   ]
 }
