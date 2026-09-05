@@ -1,4 +1,4 @@
-import { FromNowHoverCard } from "../from-now-hover-card";
+import { FromNowHoverCard } from "../fromNowHoverCard";
 
 export default function FromNowHoverCardDemo() {
   return (

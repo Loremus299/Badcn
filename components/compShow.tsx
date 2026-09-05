@@ -12,14 +12,16 @@ export default function ComponentShowcase({
   url: string;
 }) {
   return (
-    <Link href={url}>
+    <div>
       <div className="w-full aspect-video border bg-card rounded-md @container grid place-items-center">
         <div className="-mt-12">{children}</div>
       </div>
-      <div className="-mt-12 text-sm">
-        <h6 className="ml-3">{name}</h6>
-        <p className="ml-3 text-muted-foreground text-xs">{description}</p>
-      </div>
-    </Link>
+      <Link href={url}>
+        <div className="-mt-12 text-sm">
+          <h6 className="ml-3">{name}</h6>
+          <p className="ml-3 text-muted-foreground text-xs">{description}</p>
+        </div>
+      </Link>
+    </div>
   );
 }

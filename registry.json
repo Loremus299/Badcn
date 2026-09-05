@@ -53,9 +53,9 @@
       "registryDependencies": ["hover-card"],
       "files": [
         {
-          "path": "components/badcn/from-now-hover-card.tsx",
+          "path": "components/badcn/fromNowHoverCard.tsx",
           "type": "registry:component",
-          "demo": "components/badcn/showcase/from-now-hover-card.tsx"
+          "demo": "components/badcn/showcase/fromNowHoverCard.tsx"
         }
       ]
     }

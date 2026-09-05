@@ -1,5 +1,4 @@
-"use client";
-
+/* eslint-disable react-hooks/set-state-in-effect */
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import timezone from "dayjs/plugin/timezone";
@@ -21,7 +20,6 @@ interface FromNowHoverCardProps {
 }
 
 export function FromNowHoverCard({ date, className }: FromNowHoverCardProps) {
-  // This must be a client component for timezone detection
   const [tz, setTz] = useState<string>("UTC");
   useEffect(() => {
     if (typeof window !== "undefined" && Intl?.DateTimeFormat) {
