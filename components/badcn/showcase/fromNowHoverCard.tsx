@@ -1,9 +1,5 @@
 import { FromNowHoverCard } from "../fromNowHoverCard";
 
 export default function FromNowHoverCardDemo() {
-  return (
-    <div className="p-8">
-      <FromNowHoverCard date={"2005-04-30T21:30:00"} />
-    </div>
-  );
+  return <FromNowHoverCard date={"2005-04-30T21:30:00"} />;
 }
