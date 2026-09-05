@@ -23,7 +23,7 @@ type Props = ComponentProps<"span"> & {
 
 export function FromNowHoverCard({
   date = new Date(),
-  display = ["local", "utc", "unix"],
+  display = ["unix", "local", "utc"],
   format = "MMM DD, YYYY, HH:mm:ss",
   className,
 }: Props) {
@@ -60,7 +60,7 @@ export function FromNowHoverCard({
                 return (
                   <div key="unix" className="flex gap-4 justify-between">
                     <span>{timestamp}</span>
-                    <span className="text-muted-foreground">(Unix)</span>
+                    <span className="text-muted-foreground">(Timestamp)</span>
                   </div>
                 );
               }
