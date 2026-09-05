@@ -18,7 +18,7 @@ dayjs.extend(timezone);
 type Props = ComponentProps<"span"> & { date: Date | string; format: string };
 
 export function FromNowHoverCard({
-  date,
+  date = new Date(),
   format = "MMM DD, YYYY, HH:mm:ss",
   className,
 }: Props) {
