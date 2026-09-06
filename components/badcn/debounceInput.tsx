@@ -42,11 +42,11 @@ export default function DebounceInput({
     <Input
       ref={inp}
       value={insValue}
-      {...props}
       onChange={(e) => {
         setInsValue(e.target.value);
         onChange(e);
       }}
+      {...props}
     />
   );
 }
