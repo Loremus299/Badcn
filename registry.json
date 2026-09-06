@@ -78,8 +78,8 @@
       "authorContact": "https://web.loremus.gay/",
       "authorImage": "https://avatars.githubusercontent.com/u/230110912",
       "type": "registry:component",
-      "dependencies": ["dayjs"],
-      "registryDependencies": ["hover-card"],
+      "dependencies": [],
+      "registryDependencies": ["input"],
       "files": [
         {
           "path": "components/badcn/debounceInput.tsx",
