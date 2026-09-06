@@ -1,11 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import {
-  ChangeEvent,
-  ComponentProps,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { ComponentProps, useEffect, useRef, useState } from "react";
 import { Input } from "../ui/input";
 
 type Props = Omit<Omit<ComponentProps<typeof Input>, "ref">, "value"> & {
@@ -18,7 +11,7 @@ export default function DebounceInput({
   onBounce = () => {},
   delay = 500,
   defaultValue = "",
-  onChange = (event: ChangeEvent<HTMLInputElement, HTMLInputElement>) => {},
+  onChange = () => {},
   ...props
 }: Props) {
   const [insValue, setInsValue] = useState(defaultValue);

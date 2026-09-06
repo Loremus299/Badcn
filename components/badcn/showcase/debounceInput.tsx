@@ -2,7 +2,7 @@ import { useState } from "react";
 import DebounceInput from "../debounceInput";
 
 export default function DebounceInputDemo() {
-  const defaultValue = "default";
+  const defaultValue = "";
   const [insV, setInsV] = useState(defaultValue);
   const [debV, setDebV] = useState(defaultValue);
 
@@ -15,15 +15,19 @@ export default function DebounceInputDemo() {
         onChange={(e) => setInsV(e.target.value)}
       />
       <div className="flex justify-between text-xs text-muted-foreground gap-16">
-        <p>
-          {insV} <br />
-          Instant
-        </p>
-        <p>
-          {debV}
-          <br />
-          <p>Debounce</p>
-        </p>
+        {insV !== "" && (
+          <span>
+            {insV} <br />
+            Instant
+          </span>
+        )}
+        {debV !== "" && (
+          <span>
+            {debV}
+            <br />
+            <p>Debounce</p>
+          </span>
+        )}
       </div>
     </div>
   );
