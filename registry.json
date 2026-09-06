@@ -70,6 +70,23 @@
           "demo": "components/badcn/showcase/fromNowHoverCard.tsx"
         }
       ]
+    },
+    {
+      "name": "debounce-input",
+      "description": "Text input with debounce support.",
+      "author": "Loremus",
+      "authorContact": "https://web.loremus.gay/",
+      "authorImage": "https://avatars.githubusercontent.com/u/230110912",
+      "type": "registry:component",
+      "dependencies": ["dayjs"],
+      "registryDependencies": ["hover-card"],
+      "files": [
+        {
+          "path": "components/badcn/debounceInput.tsx",
+          "type": "registry:component",
+          "demo": "components/badcn/showcase/debounceInput.tsx"
+        }
+      ]
     }
   ]
 }
