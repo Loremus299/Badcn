@@ -13,7 +13,7 @@ export default function LoadingButtonDemo() {
         setLoading(false);
       }}
     >
-      Load for 3 seconds.
+      <p>❤︎⁠</p>Load for 3 seconds.
     </LoadingButton>
   );
 }
