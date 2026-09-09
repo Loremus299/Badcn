@@ -6,6 +6,9 @@ import data from "@/registry.json";
 import { readFileSync } from "fs";
 import Code from "./_components/code";
 import Link from "next/link";
+import { buttonVariants } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export async function generateStaticParams() {
   return data.items.map((item) => ({
@@ -26,13 +29,21 @@ export default async function Page({
       <div className="flex justify-center scale-95">
         <main className="w-full max-w-xl grid gap-6 landscape:pt-8">
           <div>
-            <h1 className="text-lg font-semibold tracking-tight">
-              {details.name
-                .split("-")
-                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(" ")}
-              .
-            </h1>
+            <div className="flex justify-between items-center">
+              <h1 className="text-lg font-semibold tracking-tight">
+                {details.name
+                  .split("-")
+                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(" ")}
+                .
+              </h1>
+              <Link
+                href={"/"}
+                className={cn(buttonVariants({ size: "icon-sm" }), "invert")}
+              >
+                <ArrowLeft />
+              </Link>
+            </div>
             <h2 className="text-muted-foreground text-sm">
               {details.description}
             </h2>
