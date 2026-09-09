@@ -54,20 +54,42 @@ export default async function Page({
             <h5 className="tracking-tight font-semibold">Source code.</h5>
             <Code>{readFileSync(details.files[0].path, "utf-8")}</Code>
           </div>
-          <div className="grid gap-3">
-            <h5 className="tracking-tight font-semibold">Dependencies.</h5>
-            <div className="bg-card border p-2 rounded-md text-sm">
-              {details.registryDependencies.map((item) => (
-                <div key={item} className="pl-1">
-                  -{" "}
-                  {item
-                    .split("-")
-                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                    .join(" ")}
-                </div>
-              ))}
+          {details.registryDependencies.length > 0 && (
+            <div className="grid gap-3">
+              <h5 className="tracking-tight font-semibold">Peer Components.</h5>
+              <div className="bg-card border p-2 rounded-md text-sm">
+                {details.registryDependencies.map((item) => (
+                  <div key={item} className="pl-1">
+                    -{" "}
+                    {item
+                      .split("-")
+                      .map(
+                        (word) => word.charAt(0).toUpperCase() + word.slice(1),
+                      )
+                      .join(" ")}
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
+          {details.dependencies.length > 0 && (
+            <div className="grid gap-3">
+              <h5 className="tracking-tight font-semibold">Peer Components.</h5>
+              <div className="bg-card border p-2 rounded-md text-sm">
+                {details.dependencies.map((item) => (
+                  <div key={item} className="pl-1">
+                    -{" "}
+                    {item
+                      .split("-")
+                      .map(
+                        (word) => word.charAt(0).toUpperCase() + word.slice(1),
+                      )
+                      .join(" ")}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
           <div className="grid gap-3">
             <h5 className="tracking-tight font-semibold">Author.</h5>
             <Link

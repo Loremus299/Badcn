@@ -87,6 +87,23 @@
           "demo": "components/badcn/showcase/debounceInput.tsx"
         }
       ]
+    },
+    {
+      "name": "form-controller",
+      "description": "React Hook Form wrapper.",
+      "author": "Loremus",
+      "authorContact": "https://web.loremus.gay/",
+      "authorImage": "https://avatars.githubusercontent.com/u/230110912",
+      "type": "registry:component",
+      "dependencies": ["react-hook-form"],
+      "registryDependencies": ["field"],
+      "files": [
+        {
+          "path": "components/badcn/formController.tsx",
+          "type": "registry:component",
+          "demo": "components/badcn/showcase/formController.tsx"
+        }
+      ]
     }
   ]
 }
