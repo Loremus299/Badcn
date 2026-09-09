@@ -74,7 +74,7 @@ export default async function Page({
           )}
           {details.dependencies.length > 0 && (
             <div className="grid gap-3">
-              <h5 className="tracking-tight font-semibold">Peer Components.</h5>
+              <h5 className="tracking-tight font-semibold">Dependencies</h5>
               <div className="bg-card border p-2 rounded-md text-sm">
                 {details.dependencies.map((item) => (
                   <div key={item} className="pl-1">
