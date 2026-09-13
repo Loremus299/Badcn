@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HexAlphaColorPicker, HexColorPicker } from "react-colorful";
 import { Button } from "../ui/button";
 import { PipetteIcon, PlusIcon } from "lucide-react";
@@ -14,6 +14,8 @@ type Props = {
   alpha?: boolean;
   preset?: string[];
   editablePresets?: boolean;
+  onPresetChange?: (preset: string[]) => void;
+  onPick?: () => void;
 };
 
 export default function ColorPicker({
@@ -21,23 +23,28 @@ export default function ColorPicker({
   alpha = true,
   preset = ["#f49595", " 	#f9eb97", "#c6f9ac", "#a8d9f6", "#e2bbfd"],
   editablePresets = true,
+  onPresetChange = () => {},
 }: Props) {
   const [color, setColor] = useState(defaultColorHex);
   const [presets, setPresets] = useState(preset);
 
+  useEffect(() => {
+    onPresetChange(presets);
+  }, [onPresetChange, presets]);
+
   return (
-    <div className="w-1/2 aspect-4/3 p-4 bg-muted rounded-xl border flex flex-col gap-2">
+    <div className="w-full p-4 bg-muted rounded-xl border flex flex-col gap-2">
       {alpha ? (
         <HexAlphaColorPicker
           color={color}
           onChange={setColor}
-          className="color-picker w-full! h-full!"
+          className="color-picker w-full! h-full! aspect-video"
         />
       ) : (
         <HexColorPicker
           color={color}
           onChange={setColor}
-          className="color-picker w-full! h-full!"
+          className="color-picker w-full! h-full! aspect-video"
         />
       )}
       <div className="flex items-center gap-2">
