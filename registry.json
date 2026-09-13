@@ -104,6 +104,23 @@
           "demo": "components/badcn/showcase/formController.tsx"
         }
       ]
+    },
+    {
+      "name": "color-picker",
+      "description": "Color Picker in a single component.",
+      "author": "Loremus",
+      "authorContact": "https://web.loremus.gay/",
+      "authorImage": "https://avatars.githubusercontent.com/u/230110912",
+      "type": "registry:component",
+      "dependencies": ["react-hook-form"],
+      "registryDependencies": ["field"],
+      "files": [
+        {
+          "path": "components/badcn/colorPicker.tsx",
+          "type": "registry:component",
+          "demo": "components/badcn/showcase/colorPicker.tsx"
+        }
+      ]
     }
   ]
 }
