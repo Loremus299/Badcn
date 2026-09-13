@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { HexAlphaColorPicker, HexColorPicker } from "react-colorful";
-import { Button } from "../ui/button";
+import { Button, buttonVariants } from "../ui/button";
 import { PipetteIcon, PlusIcon } from "lucide-react";
 import {
   ContextMenu,
@@ -8,6 +8,8 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from "../ui/context-menu";
+import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
+import ImageInput from "./imageInput";
 
 type Props = {
   defaultColorHex?: string;
@@ -27,6 +29,7 @@ export default function ColorPicker({
 }: Props) {
   const [color, setColor] = useState(defaultColorHex);
   const [presets, setPresets] = useState(preset);
+  const [image, setImage] = useState<string | null>(null);
 
   useEffect(() => {
     onPresetChange(presets);
@@ -47,18 +50,33 @@ export default function ColorPicker({
           className="color-picker w-full! h-full! aspect-video"
         />
       )}
-      <div className="flex items-center gap-2">
+      <div className="grid grid-cols-2 items-center gap-2">
         <div
           className={
-            "pl-2 pr-2 pt-1 pb-1 rounded-full border-2 border-foreground text-sm font-mono w-full flex justify-center"
+            "pl-2 pr-2 pt-1.5 pb-1.5 rounded-full border-2 border-foreground text-sm font-mono w-full flex justify-center"
           }
           style={{ backgroundColor: color }}
         >
           {alpha ? color.padEnd(9, "f").slice(1) : color.slice(0, 7).slice(1)}
         </div>
-        <Button size={"icon-sm"}>
-          <PipetteIcon className="size-3" />
-        </Button>
+        <Dialog>
+          <DialogTrigger className={buttonVariants({ size: "lg" })}>
+            <PipetteIcon className="size-3.5 stroke-2" /> From image.
+          </DialogTrigger>
+          <DialogContent>
+            <ImageInput
+              showPreview={false}
+              accepts={["image/png", "image/jpeg", "image/webp"]}
+              onChange={(e) => {
+                const file = e.currentTarget.files?.[0];
+                if (file) {
+                  setImage(URL.createObjectURL(file));
+                }
+              }}
+            />
+            {image && <canvas></canvas>}
+          </DialogContent>
+        </Dialog>
       </div>
       <div className="flex gap-2 flex-wrap">
         {editablePresets
