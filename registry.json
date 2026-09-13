@@ -107,7 +107,7 @@
     },
     {
       "name": "color-picker",
-      "description": "Color Picker in a single component.",
+      "description": "Color Picker with eyedropper, presets, sliders.",
       "author": "Loremus",
       "authorContact": "https://web.loremus.gay/",
       "authorImage": "https://avatars.githubusercontent.com/u/230110912",
