@@ -13,12 +13,14 @@ type Props = {
   defaultColorHex?: string;
   alpha?: boolean;
   preset?: string[];
+  editablePresets?: boolean;
 };
 
 export default function ColorPicker({
   defaultColorHex = "#000000",
   alpha = true,
   preset = ["#f49595", " 	#f9eb97", "#c6f9ac", "#a8d9f6", "#e2bbfd"],
+  editablePresets = true,
 }: Props) {
   const [color, setColor] = useState(defaultColorHex);
   const [presets, setPresets] = useState(preset);
@@ -52,31 +54,42 @@ export default function ColorPicker({
         </Button>
       </div>
       <div className="flex gap-2 flex-wrap">
-        {presets.map((color, index) => (
-          <ContextMenu key={index}>
-            <ContextMenuTrigger
-              className="size-6 rounded-full border-2 border-white"
-              style={{ backgroundColor: color }}
-              onClick={() => setColor(color)}
-            />
-            <ContextMenuContent>
-              <ContextMenuItem
-                onClick={() =>
-                  setPresets(presets.filter((t, i) => i !== index))
-                }
-              >
-                Remove color
-              </ContextMenuItem>
-            </ContextMenuContent>
-          </ContextMenu>
-        ))}
-        <Button
-          size={"icon-xs"}
-          variant={"outline"}
-          onClick={() => setPresets([...presets, color])}
-        >
-          <PlusIcon />
-        </Button>
+        {editablePresets
+          ? presets.map((color, index) => (
+              <ContextMenu key={index}>
+                <ContextMenuTrigger
+                  className="size-6 rounded-full border-2 border-white"
+                  style={{ backgroundColor: color }}
+                  onClick={() => setColor(color)}
+                />
+                <ContextMenuContent>
+                  <ContextMenuItem
+                    onClick={() =>
+                      setPresets(presets.filter((t, i) => i !== index))
+                    }
+                  >
+                    Remove color
+                  </ContextMenuItem>
+                </ContextMenuContent>
+              </ContextMenu>
+            ))
+          : presets.map((color, index) => (
+              <button
+                key={index}
+                className="size-6 rounded-full border-2 border-white"
+                style={{ backgroundColor: color }}
+                onClick={() => setColor(color)}
+              />
+            ))}
+        {editablePresets && (
+          <Button
+            size={"icon-xs"}
+            variant={"outline"}
+            onClick={() => setPresets([...presets, color])}
+          >
+            <PlusIcon />
+          </Button>
+        )}
       </div>
     </div>
   );
