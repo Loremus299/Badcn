@@ -15,7 +15,6 @@ export default function FormController<
   form,
   name,
   label,
-  placeholder,
   render,
 }: {
   form: UseFormReturn<T>;
@@ -25,7 +24,6 @@ export default function FormController<
   render: (args: {
     fieldState: ControllerFieldState;
     field: ControllerRenderProps<T, K>;
-    placeholder: string;
   }) => React.ReactNode;
 }) {
   return (
@@ -36,7 +34,6 @@ export default function FormController<
         <Field data-invalid={fieldState.invalid}>
           <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
           {render({
-            placeholder,
             field,
             fieldState,
           })}
