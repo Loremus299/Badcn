@@ -31,6 +31,7 @@ type SwapyContainerProps = ComponentProps<"div"> & {
   layoutStyle?: string;
   initialEdit?: boolean;
   initialSwapyData?: SwapyItemRepresentation[];
+  AddButton?: ReactNode;
   onSwap?: (arg: SwapEvent) => void;
   onSwapStart?: (arg: SwapStartEvent) => void;
   onSwapEnd?: (arg: SwapEndEvent) => void;
@@ -54,7 +55,13 @@ export function SwapyContainer({
   initialSwapyData = [],
   className,
   layoutStyle,
+  AddButton = (
+    <SwapySlotAdd col={1} row={1} component={<SwapyItem>Default</SwapyItem>}>
+      +
+    </SwapySlotAdd>
+  ),
   children,
+
   onSwap = () => {},
   onSwapStart = () => {},
   onSwapEnd = () => {},
@@ -138,6 +145,9 @@ export function SwapyContainer({
               {item.node}
             </SwapySlot>
           ))}
+          <SwapySlot id="add-slot-button">
+            <SwapyItem>{AddButton}</SwapyItem>
+          </SwapySlot>
         </div>
       </div>
     </ContainerContext.Provider>
