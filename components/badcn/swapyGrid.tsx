@@ -168,7 +168,7 @@ export function SwapySlot({
 
 type SwapyItem = ComponentProps<"div">;
 
-export function SwapyItem({ children, className, id, ...props }: SwapySlot) {
+export function SwapyItem({ children, className, id, ...props }: SwapyItem) {
   return (
     <div {...props} className={className} data-swapy-item={`item-${id}`}>
       <div>{children}</div>
