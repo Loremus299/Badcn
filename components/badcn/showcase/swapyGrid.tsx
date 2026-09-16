@@ -2,7 +2,11 @@ import { SwapyContainer, SwapyItem, SwapySlot } from "../swapyGrid";
 
 export default function SwapyGridDemo() {
   return (
-    <SwapyContainer rows={2} cols={2} className="gap-2">
+    <SwapyContainer
+      rows={2}
+      cols={2}
+      className="gap-2 p-2 bg-black/50 rounded-lg border"
+    >
       <SwapySlot id="hi">
         <SwapyItem
           id="hi"

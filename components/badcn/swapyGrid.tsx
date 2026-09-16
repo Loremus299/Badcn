@@ -5,7 +5,7 @@ import {
   type SwapStartEvent,
   type SwapEndEvent,
 } from "swapy";
-import { ComponentProps, useEffect, useRef } from "react";
+import { ComponentProps, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 type Props = ComponentProps<"div"> & {
@@ -28,7 +28,10 @@ export function SwapyContainer({
 }: Props) {
   const swapy = useRef<Swapy>(null);
   const container = useRef(null);
-  const [colString, rowString] = [`grid-cols-${cols}`, `grid-rows-${rows}`];
+  const [col, setCol] = useState(cols);
+  const [row, setRow] = useState(rows);
+
+  const [colString, rowString] = [`grid-cols-${col}`, `grid-rows-${row}`];
 
   useEffect(() => {
     if (container.current) {
@@ -72,7 +75,10 @@ export function SwapySlot({
   id,
   ...props
 }: SwapySlot) {
-  const [colString, rowString] = [`col-span-${cols}`, `row-span-${rows}`];
+  const [col, setCol] = useState(cols);
+  const [row, setRow] = useState(rows);
+
+  const [colString, rowString] = [`col-span-${col}`, `row-span-${row}`];
 
   return (
     <div
