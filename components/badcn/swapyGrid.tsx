@@ -114,6 +114,7 @@ export function SwapyContainer({
 type SwapySlot = ComponentProps<"div"> & {
   cols?: number;
   rows?: number;
+  onSizeChange: ({ cols, rows }: { cols: number; rows: number }) => void;
 };
 
 const SlotContext = createContext<{
@@ -124,16 +125,21 @@ const SlotContext = createContext<{
 } | null>(null);
 
 export function SwapySlot({
-  children,
   cols = 1,
   rows = 1,
-  className,
   id = globalThis.crypto.randomUUID(),
+  children,
+  className,
+  onSizeChange = () => {},
   ...props
 }: SwapySlot) {
   const [col, setCol] = useState(cols);
   const [row, setRow] = useState(rows);
   const { setSwapyData } = useContext(ContainerContext)!;
+
+  useEffect(() => {
+    onSizeChange({ cols: col, rows: row });
+  }, [col, onSizeChange, row]);
 
   useEffect(() => {
     setSwapyData((prev) => {
@@ -204,4 +210,78 @@ export function SwapyColSubtract({ children, className, ...props }: Button) {
 export function SwapyColDisplay(props: Display) {
   const ctx = useContext(ContainerContext);
   return <div {...props}>{ctx?.cols}</div>;
+}
+
+export function SwapySlotColAdd({ children, className, ...props }: Button) {
+  const ctx = useContext(SlotContext);
+
+  return (
+    <Button
+      {...props}
+      className={cn(ctx?.col === 1 ? "hidden" : className)}
+      onClick={() => ctx?.setCol(ctx.col + 1)}
+    >
+      {children}
+    </Button>
+  );
+}
+
+export function SwapySlotColSubtract({
+  children,
+  className,
+  ...props
+}: Button) {
+  const ctx = useContext(SlotContext);
+
+  return (
+    <Button
+      {...props}
+      className={cn(ctx?.col === 1 ? "hidden" : className)}
+      onClick={() => ctx?.setCol(ctx.col - 1)}
+    >
+      {children}
+    </Button>
+  );
+}
+
+export function SwapySlotColDisplay(props: Display) {
+  const ctx = useContext(SlotContext);
+  return <div {...props}>{ctx?.col}</div>;
+}
+
+export function SwapySlotRowAdd({ children, className, ...props }: Button) {
+  const ctx = useContext(SlotContext);
+
+  return (
+    <Button
+      {...props}
+      className={cn(ctx?.row === 1 ? "hidden" : className)}
+      onClick={() => ctx?.setCol(ctx.row + 1)}
+    >
+      {children}
+    </Button>
+  );
+}
+
+export function SwapySlotRowSubtract({
+  children,
+  className,
+  ...props
+}: Button) {
+  const ctx = useContext(SlotContext);
+
+  return (
+    <Button
+      {...props}
+      className={cn(ctx?.row === 1 ? "hidden" : className)}
+      onClick={() => ctx?.setCol(ctx.row - 1)}
+    >
+      {children}
+    </Button>
+  );
+}
+
+export function SwapySlotRowDisplay(props: Display) {
+  const ctx = useContext(SlotContext);
+  return <div {...props}>{ctx?.row}</div>;
 }
