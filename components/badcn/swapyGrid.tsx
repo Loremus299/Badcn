@@ -114,7 +114,7 @@ export function SwapyContainer({
 type SwapySlot = ComponentProps<"div"> & {
   cols?: number;
   rows?: number;
-  onSizeChange: ({ cols, rows }: { cols: number; rows: number }) => void;
+  onSizeChange?: ({ cols, rows }: { cols: number; rows: number }) => void;
 };
 
 const SlotContext = createContext<{
@@ -218,7 +218,7 @@ export function SwapySlotColAdd({ children, className, ...props }: Button) {
   return (
     <Button
       {...props}
-      className={cn(ctx?.col === 1 ? "hidden" : className)}
+      className={className}
       onClick={() => ctx?.setCol(ctx.col + 1)}
     >
       {children}
@@ -255,7 +255,7 @@ export function SwapySlotRowAdd({ children, className, ...props }: Button) {
   return (
     <Button
       {...props}
-      className={cn(ctx?.row === 1 ? "hidden" : className)}
+      className={className}
       onClick={() => ctx?.setCol(ctx.row + 1)}
     >
       {children}

@@ -11,7 +11,7 @@ import {
 export default function SwapyGridDemo() {
   return (
     <SwapyContainer
-      cols={2}
+      initialCols={2}
       className="gap-2 p-2 bg-black/50 rounded-lg border"
       layoutStyle="grid gap-2"
     >
