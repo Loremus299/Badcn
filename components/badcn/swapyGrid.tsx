@@ -1,3 +1,16 @@
+import { cn } from "cn";
+import {
+  Children,
+  ComponentProps,
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   createSwapy,
   type Swapy,
@@ -5,50 +18,57 @@ import {
   type SwapStartEvent,
   type SwapEndEvent,
 } from "swapy";
-import {
-  Children,
-  ComponentProps,
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
-import { LucideMinus, LucidePlus } from "lucide-react";
 
-type Props = ComponentProps<"div"> & {
-  cols?: number;
+type SwapyItemRepresentation = {
+  id: string;
+  row: number;
+  col: number;
+  node: ReactNode;
+};
+
+type SwapyContainerProps = ComponentProps<"div"> & {
+  initialCols?: number;
+  layoutStyle?: string;
+  initialEdit?: boolean;
+  initialSwapyData?: Array<SwapyItemRepresentation>;
   onSwap?: (arg: SwapEvent) => void;
   onSwapStart?: (arg: SwapStartEvent) => void;
   onSwapEnd?: (arg: SwapEndEvent) => void;
-  layoutStyle?: string;
+  onLayoutChange?: (arg: SwapyItemRepresentation[]) => void;
 };
-
-type Button = ComponentProps<typeof Button>;
 
 const ContainerContext = createContext<{
   cols: number;
   setCols: Dispatch<SetStateAction<number>>;
+  editing: boolean;
+  setEditing: Dispatch<SetStateAction<boolean>>;
+  setSwapyData: Dispatch<SetStateAction<Array<SwapyItemRepresentation>>>;
 } | null>(null);
 
 export function SwapyContainer({
+  initialCols = 2,
+  initialEdit = true,
+  initialSwapyData = [],
+  className,
+  layoutStyle,
   children,
-  cols = 2,
   onSwap = () => {},
   onSwapStart = () => {},
   onSwapEnd = () => {},
-  className,
-  layoutStyle,
+  onLayoutChange = () => {},
   ...props
-}: Props) {
+}: SwapyContainerProps) {
   const swapy = useRef<Swapy>(null);
   const container = useRef(null);
-  const [col, setCol] = useState(cols);
+  const [cols, setCols] = useState(initialCols);
+  const [editing, setEditing] = useState(initialEdit);
+  const [swapyData, setSwapyData] =
+    useState<SwapyItemRepresentation[]>(initialSwapyData);
   const childrenArr = Children.toArray(children);
+
+  useEffect(() => {
+    onLayoutChange(swapyData);
+  }, [onLayoutChange, swapyData]);
 
   useEffect(() => {
     if (container.current) {
@@ -66,18 +86,22 @@ export function SwapyContainer({
       });
     }
 
+    swapy.current?.enable(editing);
+
     return () => {
       swapy.current?.destroy();
     };
-  }, [onSwap, onSwapEnd, onSwapStart]);
+  }, [editing, onSwap, onSwapEnd, onSwapStart]);
 
   return (
-    <ContainerContext.Provider value={{ cols: col, setCols: setCol }}>
+    <ContainerContext.Provider
+      value={{ cols, setCols, editing, setEditing, setSwapyData }}
+    >
       <div {...props} ref={container} className={layoutStyle}>
         {childrenArr[0]}
         <div
           className={cn("grid", className)}
-          style={{ gridTemplateColumns: `repeat(${col}, minmax(0, 1fr))` }}
+          style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}
         >
           {childrenArr[1]}
         </div>
@@ -86,36 +110,10 @@ export function SwapyContainer({
   );
 }
 
-export function SwapyColAdd({ children, ...props }: Button) {
-  const ctx = useContext(ContainerContext);
-  return (
-    <Button {...props} onClick={() => ctx?.setCols(ctx.cols + 1)}>
-      {children}
-    </Button>
-  );
-}
-
-export function SwapyColSubtract({ children, className, ...props }: Button) {
-  const ctx = useContext(ContainerContext);
-  return (
-    <Button
-      {...props}
-      className={cn(ctx?.cols === 1 ? "hidden" : className)}
-      onClick={() => ctx?.setCols(ctx.cols - 1)}
-    >
-      {children}
-    </Button>
-  );
-}
-
-type SwapyColDisplay = ComponentProps<"div">;
-
-export function SwapyColDisplay(props: SwapyColDisplay) {
-  const ctx = useContext(ContainerContext);
-  return <div {...props}>{ctx?.cols}</div>;
-}
-
-type SwapySlot = ComponentProps<"div"> & { cols?: number; rows?: number };
+type SwapySlot = ComponentProps<"div"> & {
+  cols?: number;
+  rows?: number;
+};
 
 const SlotContext = createContext<{
   col: number;
@@ -129,11 +127,26 @@ export function SwapySlot({
   cols = 1,
   rows = 1,
   className,
-  id,
+  id = globalThis.crypto.randomUUID(),
   ...props
 }: SwapySlot) {
   const [col, setCol] = useState(cols);
   const [row, setRow] = useState(rows);
+  const { setSwapyData } = useContext(ContainerContext)!;
+
+  useEffect(() => {
+    setSwapyData((prev) => {
+      const existing = prev.find((i) => i.id === id);
+
+      if (!existing) {
+        return [...prev, { id, col, row, node: children }];
+      }
+
+      return prev.map((i) =>
+        i.id === id ? { ...i, col, row, node: children } : i,
+      );
+    });
+  }, [children, col, id, row, setSwapyData]);
 
   return (
     <SlotContext.Provider value={{ col, row, setCol, setRow }}>
@@ -152,57 +165,11 @@ export function SwapySlot({
   );
 }
 
-function SwapySlotResizeAdd({ children, className, ...props }: Button) {
-  const ctx = useContext(SlotContext);
-  const cont = useContext(ContainerContext);
-
-  return (
-    <Button
-      {...props}
-      className={cn(cont?.cols === ctx?.col ? "hidden" : className)}
-      onClick={() => ctx?.setCol(ctx.col + 1)}
-    >
-      {children}
-    </Button>
-  );
-}
-function SwapySlotResizeSubtract({ children, className, ...props }: Button) {
-  const ctx = useContext(SlotContext);
-
-  return (
-    <Button
-      {...props}
-      className={cn(ctx?.col === 1 ? "hidden" : className)}
-      onClick={() => ctx?.setCol(ctx.col - 1)}
-    >
-      {children}
-    </Button>
-  );
-}
-
 type SwapyItem = ComponentProps<"div">;
 
 export function SwapyItem({ children, className, id, ...props }: SwapySlot) {
   return (
     <div {...props} className={className} data-swapy-item={`item-${id}`}>
-      <div className="relative">
-        <div className="absolute -top-4.5 -left-2 flex gap-1">
-          <SwapySlotResizeAdd
-            variant={"secondary"}
-            size={"icon-xs"}
-            className={"size-4 border border-black"}
-          >
-            <LucidePlus />
-          </SwapySlotResizeAdd>
-          <SwapySlotResizeSubtract
-            variant={"secondary"}
-            size={"icon-xs"}
-            className={"size-4 border border-black"}
-          >
-            <LucideMinus />
-          </SwapySlotResizeSubtract>
-        </div>
-      </div>
       <div>{children}</div>
     </div>
   );
