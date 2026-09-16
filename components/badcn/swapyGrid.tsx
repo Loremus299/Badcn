@@ -1,6 +1,5 @@
 import { cn } from "cn";
 import {
-  Children,
   ComponentProps,
   createContext,
   Dispatch,
@@ -14,9 +13,9 @@ import {
 import {
   createSwapy,
   type Swapy,
+  type SwapEndEvent,
   type SwapEvent,
   type SwapStartEvent,
-  type SwapEndEvent,
 } from "swapy";
 import { Button } from "../ui/button";
 
@@ -31,20 +30,23 @@ type SwapyContainerProps = ComponentProps<"div"> & {
   initialCols?: number;
   layoutStyle?: string;
   initialEdit?: boolean;
-  initialSwapyData?: Array<SwapyItemRepresentation>;
+  initialSwapyData?: SwapyItemRepresentation[];
   onSwap?: (arg: SwapEvent) => void;
   onSwapStart?: (arg: SwapStartEvent) => void;
   onSwapEnd?: (arg: SwapEndEvent) => void;
   onLayoutChange?: (arg: SwapyItemRepresentation[]) => void;
 };
 
-const ContainerContext = createContext<{
+type ContainerContextValue = {
   cols: number;
   setCols: Dispatch<SetStateAction<number>>;
   editing: boolean;
   setEditing: Dispatch<SetStateAction<boolean>>;
-  setSwapyData: Dispatch<SetStateAction<Array<SwapyItemRepresentation>>>;
-} | null>(null);
+  setSwapyData: Dispatch<SetStateAction<SwapyItemRepresentation[]>>;
+  setItemSize: (id: string, col: number, row: number) => void;
+};
+
+const ContainerContext = createContext<ContainerContextValue | null>(null);
 
 export function SwapyContainer({
   initialCols = 2,
@@ -60,69 +62,103 @@ export function SwapyContainer({
   ...props
 }: SwapyContainerProps) {
   const swapy = useRef<Swapy>(null);
-  const container = useRef(null);
+  const container = useRef<HTMLDivElement>(null);
+
   const [cols, setCols] = useState(initialCols);
   const [editing, setEditing] = useState(initialEdit);
   const [swapyData, setSwapyData] =
     useState<SwapyItemRepresentation[]>(initialSwapyData);
-  const childrenArr = Children.toArray(children);
+
+  const setItemSize = (id: string, col: number, row: number) => {
+    setSwapyData((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, col, row } : item)),
+    );
+  };
 
   useEffect(() => {
     onLayoutChange(swapyData);
   }, [onLayoutChange, swapyData]);
 
   useEffect(() => {
-    if (container.current) {
-      swapy.current = createSwapy(container.current);
-      swapy.current.onSwap((event) => {
-        onSwap(event);
-      });
+    if (!container.current) return;
+    swapy.current = createSwapy(container.current);
 
-      swapy.current.onSwapStart((event) => {
-        onSwapStart(event);
-      });
+    swapy.current.onSwap((event) => {
+      onSwap(event);
+    });
 
-      swapy.current.onSwapEnd((event) => {
-        onSwapEnd(event);
-      });
-    }
+    swapy.current.onSwapStart((event) => {
+      onSwapStart(event);
+    });
 
-    swapy.current?.enable(editing);
+    swapy.current.onSwapEnd((event) => {
+      onSwapEnd(event);
+    });
 
     return () => {
       swapy.current?.destroy();
+      swapy.current = null;
     };
-  }, [editing, onSwap, onSwapEnd, onSwapStart]);
+  }, [onSwap, onSwapEnd, onSwapStart]);
+
+  useEffect(() => {
+    swapy.current?.enable(editing);
+  }, [editing]);
+
+  useEffect(() => {
+    swapy.current?.update();
+  }, [swapyData]);
 
   return (
     <ContainerContext.Provider
-      value={{ cols, setCols, editing, setEditing, setSwapyData }}
+      value={{
+        cols,
+        setCols,
+        editing,
+        setEditing,
+        setSwapyData,
+        setItemSize,
+      }}
     >
       <div {...props} ref={container} className={layoutStyle}>
-        {childrenArr[0]}
+        {children}
         <div
           className={cn("grid", className)}
-          style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}
+          style={{
+            gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
+          }}
         >
-          {childrenArr[1]}
+          {swapyData.map((item) => (
+            <SwapySlot
+              key={item.id}
+              id={item.id}
+              cols={item.col}
+              rows={item.row}
+            >
+              {item.node}
+            </SwapySlot>
+          ))}
         </div>
       </div>
     </ContainerContext.Provider>
   );
 }
 
-type SwapySlot = ComponentProps<"div"> & {
+type SwapySlotProps = ComponentProps<"div"> & {
   cols?: number;
   rows?: number;
-  onSizeChange?: ({ cols, rows }: { cols: number; rows: number }) => void;
+  onSizeChange?: (size: { cols: number; rows: number }) => void;
 };
 
-const SlotContext = createContext<{
+type SlotContextValue = {
+  id: string;
   col: number;
   row: number;
-  setCol: Dispatch<SetStateAction<number>>;
-  setRow: Dispatch<SetStateAction<number>>;
-} | null>(null);
+  setCol: (col: number) => void;
+  setRow: (row: number) => void;
+};
+
+const SlotContext = createContext<SlotContextValue | null>(null);
 
 export function SwapySlot({
   cols = 1,
@@ -132,37 +168,29 @@ export function SwapySlot({
   className,
   onSizeChange = () => {},
   ...props
-}: SwapySlot) {
-  const [col, setCol] = useState(cols);
-  const [row, setRow] = useState(rows);
-  const { setSwapyData } = useContext(ContainerContext)!;
+}: SwapySlotProps) {
+  const { setItemSize } = useContext(ContainerContext)!;
 
   useEffect(() => {
-    onSizeChange({ cols: col, rows: row });
-  }, [col, onSizeChange, row]);
-
-  useEffect(() => {
-    setSwapyData((prev) => {
-      const existing = prev.find((i) => i.id === id);
-
-      if (!existing) {
-        return [...prev, { id, col, row, node: children }];
-      }
-
-      return prev.map((i) =>
-        i.id === id ? { ...i, col, row, node: children } : i,
-      );
-    });
-  }, [children, col, id, row, setSwapyData]);
+    onSizeChange({ cols, rows });
+  }, [cols, onSizeChange, rows]);
 
   return (
-    <SlotContext.Provider value={{ col, row, setCol, setRow }}>
+    <SlotContext.Provider
+      value={{
+        id,
+        col: cols,
+        row: rows,
+        setCol: (value) => setItemSize(id, value, rows),
+        setRow: (value) => setItemSize(id, cols, value),
+      }}
+    >
       <div
         {...props}
         className={className}
         style={{
-          gridColumn: `span ${col} / span ${col}`,
-          gridRow: `span ${row} / span ${row}`,
+          gridColumn: `span ${cols} / span ${cols}`,
+          gridRow: `span ${rows} / span ${rows}`,
         }}
         data-swapy-slot={`slot-${id}`}
       >
@@ -172,47 +200,60 @@ export function SwapySlot({
   );
 }
 
-type SwapyItem = ComponentProps<"div">;
+type SwapyItemProps = ComponentProps<"div">;
 
-export function SwapyItem({ children, className, id, ...props }: SwapyItem) {
+export function SwapyItem({ children, className, ...props }: SwapyItemProps) {
+  const ctx = useContext(SlotContext);
+
   return (
-    <div {...props} className={className} data-swapy-item={`item-${id}`}>
+    <div {...props} className={className} data-swapy-item={`item-${ctx?.id}`}>
       <div>{children}</div>
     </div>
   );
 }
 
-type Button = ComponentProps<typeof Button>;
-type Display = ComponentProps<"div">;
+type ButtonProps = ComponentProps<typeof Button>;
+type DisplayProps = ComponentProps<"div">;
 
-export function SwapyColAdd({ children, ...props }: Button) {
+export function SwapyColAdd({ children, ...props }: ButtonProps) {
   const ctx = useContext(ContainerContext);
+
   return (
-    <Button {...props} onClick={() => ctx?.setCols(ctx.cols + 1)}>
+    <Button {...props} onClick={() => ctx?.setCols((value) => value + 1)}>
       {children}
     </Button>
   );
 }
 
-export function SwapyColSubtract({ children, className, ...props }: Button) {
+export function SwapyColSubtract({
+  children,
+  className,
+  ...props
+}: ButtonProps) {
   const ctx = useContext(ContainerContext);
+
   return (
     <Button
       {...props}
       className={cn(ctx?.cols === 1 ? "hidden" : className)}
-      onClick={() => ctx?.setCols(ctx.cols - 1)}
+      onClick={() => ctx?.setCols((value) => value - 1)}
     >
       {children}
     </Button>
   );
 }
 
-export function SwapyColDisplay(props: Display) {
+export function SwapyColDisplay(props: DisplayProps) {
   const ctx = useContext(ContainerContext);
+
   return <div {...props}>{ctx?.cols}</div>;
 }
 
-export function SwapySlotColAdd({ children, className, ...props }: Button) {
+export function SwapySlotColAdd({
+  children,
+  className,
+  ...props
+}: ButtonProps) {
   const ctx = useContext(SlotContext);
 
   return (
@@ -230,7 +271,7 @@ export function SwapySlotColSubtract({
   children,
   className,
   ...props
-}: Button) {
+}: ButtonProps) {
   const ctx = useContext(SlotContext);
 
   return (
@@ -244,19 +285,24 @@ export function SwapySlotColSubtract({
   );
 }
 
-export function SwapySlotColDisplay(props: Display) {
+export function SwapySlotColDisplay(props: DisplayProps) {
   const ctx = useContext(SlotContext);
+
   return <div {...props}>{ctx?.col}</div>;
 }
 
-export function SwapySlotRowAdd({ children, className, ...props }: Button) {
+export function SwapySlotRowAdd({
+  children,
+  className,
+  ...props
+}: ButtonProps) {
   const ctx = useContext(SlotContext);
 
   return (
     <Button
       {...props}
       className={className}
-      onClick={() => ctx?.setCol(ctx.row + 1)}
+      onClick={() => ctx?.setRow(ctx.row + 1)}
     >
       {children}
     </Button>
@@ -267,21 +313,57 @@ export function SwapySlotRowSubtract({
   children,
   className,
   ...props
-}: Button) {
+}: ButtonProps) {
   const ctx = useContext(SlotContext);
 
   return (
     <Button
       {...props}
       className={cn(ctx?.row === 1 ? "hidden" : className)}
-      onClick={() => ctx?.setCol(ctx.row - 1)}
+      onClick={() => ctx?.setRow(ctx.row - 1)}
     >
       {children}
     </Button>
   );
 }
 
-export function SwapySlotRowDisplay(props: Display) {
+export function SwapySlotRowDisplay(props: DisplayProps) {
   const ctx = useContext(SlotContext);
+
   return <div {...props}>{ctx?.row}</div>;
+}
+
+type SwapySlotAddProps = ButtonProps & {
+  component: ReactNode;
+  col: number;
+  row: number;
+};
+
+export function SwapySlotAdd({
+  children,
+  col,
+  row,
+  component,
+  ...props
+}: SwapySlotAddProps) {
+  const ctx = useContext(ContainerContext);
+
+  return (
+    <Button
+      {...props}
+      onClick={() => {
+        ctx?.setSwapyData((prev) => [
+          ...prev,
+          {
+            id: globalThis.crypto.randomUUID(),
+            col,
+            row,
+            node: component,
+          },
+        ]);
+      }}
+    >
+      {children}
+    </Button>
+  );
 }
