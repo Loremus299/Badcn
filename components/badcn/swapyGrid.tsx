@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import {
   createSwapy,
   type Swapy,
@@ -5,33 +6,52 @@ import {
   type SwapStartEvent,
   type SwapEndEvent,
 } from "swapy";
-import { ComponentProps, useEffect, useRef, useState } from "react";
+import {
+  Children,
+  ComponentProps,
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
 
 type Props = ComponentProps<"div"> & {
-  rows?: number;
   cols?: number;
   onSwap?: (arg: SwapEvent) => void;
   onSwapStart?: (arg: SwapStartEvent) => void;
   onSwapEnd?: (arg: SwapEndEvent) => void;
+  layoutStyle?: string;
 };
+
+const ContainerContext = createContext<{
+  cols: number;
+  setCols: Dispatch<SetStateAction<number>>;
+} | null>(null);
 
 export function SwapyContainer({
   children,
-  rows = 2,
   cols = 2,
   onSwap = () => {},
   onSwapStart = () => {},
   onSwapEnd = () => {},
   className,
+  layoutStyle,
   ...props
 }: Props) {
   const swapy = useRef<Swapy>(null);
   const container = useRef(null);
   const [col, setCol] = useState(cols);
-  const [row, setRow] = useState(rows);
+  const [colString, setColString] = useState(`grid-cols-${cols}`);
+  const childrenArr = Children.toArray(children);
 
-  const [colString, rowString] = [`grid-cols-${col}`, `grid-rows-${row}`];
+  useEffect(() => {
+    setColString(`grid-cols-${col}`);
+  }, [col]);
 
   useEffect(() => {
     if (container.current) {
@@ -55,14 +75,50 @@ export function SwapyContainer({
   }, [onSwap, onSwapEnd, onSwapStart]);
 
   return (
-    <div
-      className={cn("grid", className, colString, rowString)}
+    <ContainerContext.Provider value={{ cols: col, setCols: setCol }}>
+      <div {...props} ref={container} className={layoutStyle}>
+        {childrenArr[0]}
+        <div className={cn("grid", className, colString)}>{childrenArr[1]}</div>
+      </div>
+    </ContainerContext.Provider>
+  );
+}
+
+type SwapyColAdd = ComponentProps<typeof Button>;
+
+export function SwapyColAdd({ children, ...props }: SwapyColAdd) {
+  const ctx = useContext(ContainerContext);
+  return (
+    <Button {...props} onClick={() => ctx?.setCols(ctx.cols + 1)}>
+      {children}
+    </Button>
+  );
+}
+
+type SwapyColSubtract = ComponentProps<typeof Button>;
+
+export function SwapyColSubtract({
+  children,
+  className,
+  ...props
+}: SwapyColAdd) {
+  const ctx = useContext(ContainerContext);
+  return (
+    <Button
       {...props}
-      ref={container}
+      className={cn(ctx?.cols === 1 ? "hidden" : className)}
+      onClick={() => ctx?.setCols(ctx.cols - 1)}
     >
       {children}
-    </div>
+    </Button>
   );
+}
+
+type SwapyColDisplay = ComponentProps<"div">;
+
+export function SwapyColDisplay(props: SwapyColDisplay) {
+  const ctx = useContext(ContainerContext);
+  return <div {...props}>{ctx?.cols}</div>;
 }
 
 type SwapySlot = ComponentProps<"div"> & { cols?: number; rows?: number };
@@ -75,10 +131,7 @@ export function SwapySlot({
   id,
   ...props
 }: SwapySlot) {
-  const [col, setCol] = useState(cols);
-  const [row, setRow] = useState(rows);
-
-  const [colString, rowString] = [`col-span-${col}`, `row-span-${row}`];
+  const [colString, rowString] = [`col-span-${cols}`, `row-span-${rows}`];
 
   return (
     <div
