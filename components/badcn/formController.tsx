@@ -20,7 +20,6 @@ export default function FormController<
   form: UseFormReturn<T>;
   name: K;
   label: string;
-  placeholder: string;
   render: (args: {
     fieldState: ControllerFieldState;
     field: ControllerRenderProps<T, K>;

@@ -29,12 +29,11 @@ export default function Page() {
         form={form}
         name="input"
         label="Type Input :3"
-        placeholder="Type 'input'"
-        render={({ field, fieldState, placeholder }) => (
+        render={({ field, fieldState }) => (
           <Input
             id={field.name}
             aria-invalid={fieldState.invalid}
-            placeholder={placeholder}
+            placeholder={"Type 'input'"}
             {...field}
           />
         )}
