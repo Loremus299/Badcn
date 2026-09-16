@@ -18,6 +18,7 @@ import {
   type SwapStartEvent,
   type SwapEndEvent,
 } from "swapy";
+import { Button } from "../ui/button";
 
 type SwapyItemRepresentation = {
   id: string;
@@ -173,4 +174,34 @@ export function SwapyItem({ children, className, id, ...props }: SwapySlot) {
       <div>{children}</div>
     </div>
   );
+}
+
+type Button = ComponentProps<typeof Button>;
+type Display = ComponentProps<"div">;
+
+export function SwapyColAdd({ children, ...props }: Button) {
+  const ctx = useContext(ContainerContext);
+  return (
+    <Button {...props} onClick={() => ctx?.setCols(ctx.cols + 1)}>
+      {children}
+    </Button>
+  );
+}
+
+export function SwapyColSubtract({ children, className, ...props }: Button) {
+  const ctx = useContext(ContainerContext);
+  return (
+    <Button
+      {...props}
+      className={cn(ctx?.cols === 1 ? "hidden" : className)}
+      onClick={() => ctx?.setCols(ctx.cols - 1)}
+    >
+      {children}
+    </Button>
+  );
+}
+
+export function SwapyColDisplay(props: Display) {
+  const ctx = useContext(ContainerContext);
+  return <div {...props}>{ctx?.cols}</div>;
 }
