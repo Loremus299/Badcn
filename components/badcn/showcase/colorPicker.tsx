@@ -8,8 +8,8 @@ export default function ColorPickerDemo() {
         onPick={(e) => {
           toast.add({ title: `Nice color ${e}` });
         }}
-        onPresetChange={(e) => {
-          toast.add({ title: `New color in preset ${e[e.length - 1]}` });
+        onPresetChange={() => {
+          toast.add({ title: "presets were edited :3" });
         }}
       />
     </div>
