@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { HexAlphaColorPicker, HexColorPicker } from "react-colorful";
 import { Button, buttonVariants } from "../ui/button";
-import { PipetteIcon, PlusIcon } from "lucide-react";
 import {
   ContextMenu,
   ContextMenuContent,
@@ -31,19 +30,10 @@ export default function ColorPicker({
   ...props
 }: Props) {
   const [color, setColor] = useState(defaultColorHex);
-  const [finalColor, setFinalColor] = useState(defaultColorHex);
   const [presets, setPresets] = useState(preset);
   const [image, setImage] = useState<string | undefined>(props.defaultImage);
   const [canvasAvailable, setCanvasAvailable] = useState(false);
   const canvas = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    onPresetChange(presets);
-  }, [onPresetChange, presets]);
-
-  useEffect(() => {
-    onPick(finalColor);
-  }, [finalColor, onPick]);
 
   useEffect(() => {
     if (!image || !canvas.current) return;
@@ -90,28 +80,26 @@ export default function ColorPicker({
         </div>
         <Dialog>
           <DialogTrigger className={buttonVariants({ size: "lg" })}>
-            <PipetteIcon className="size-3.5 stroke-2" /> From image.
+            From image.
           </DialogTrigger>
           <DialogContent>
-            {!image && (
-              <ImageInput
-                showPreview={false}
-                accepts={["image/png", "image/jpeg", "image/webp"]}
-                onChange={(e) => {
-                  const file = e.currentTarget.files?.[0];
-                  if (file) {
-                    setImage(URL.createObjectURL(file));
-                  }
-                }}
-              />
-            )}
+            <ImageInput
+              showPreview={false}
+              accepts={["image/png", "image/jpeg", "image/webp"]}
+              onChange={(e) => {
+                const file = e.currentTarget.files?.[0];
+                if (file) {
+                  setImage(URL.createObjectURL(file));
+                }
+              }}
+            />
             {image && (
               <canvas
                 ref={(el) => {
                   canvas.current = el;
                   setCanvasAvailable(!!el);
                 }}
-                className="w-full cursor-crosshair"
+                className="w-full cursor-crosshair rounded-xl border border-dashed p-1"
                 onClick={(e) => {
                   const ctx = canvas.current?.getContext("2d");
 
@@ -150,9 +138,10 @@ export default function ColorPicker({
                 />
                 <ContextMenuContent>
                   <ContextMenuItem
-                    onClick={() =>
-                      setPresets(presets.filter((t, i) => i !== index))
-                    }
+                    onClick={() => {
+                      setPresets(presets.filter((t, i) => i !== index));
+                      onPresetChange(preset);
+                    }}
                   >
                     Remove color
                   </ContextMenuItem>
@@ -171,13 +160,16 @@ export default function ColorPicker({
           <Button
             size={"icon-xs"}
             variant={"outline"}
-            onClick={() => setPresets([...presets, color])}
+            onClick={() => {
+              setPresets([...presets, color]);
+              onPresetChange(preset);
+            }}
           >
-            <PlusIcon />
+            +
           </Button>
         )}
       </div>
-      <Button onClick={() => setFinalColor(color)}>Finalize.</Button>
+      <Button onClick={() => onPick(color)}>Finalize.</Button>
     </div>
   );
 }
