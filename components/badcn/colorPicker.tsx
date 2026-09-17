@@ -31,10 +31,10 @@ export default function ColorPicker({
   ...props
 }: Props) {
   const [color, setColor] = useState(defaultColorHex);
-  const [colorPickerLocal, setColorPickerLocal] = useState(defaultColorHex);
   const [finalColor, setFinalColor] = useState(defaultColorHex);
   const [presets, setPresets] = useState(preset);
   const [image, setImage] = useState<string | undefined>(props.defaultImage);
+  const [canvasAvailable, setCanvasAvailable] = useState(false);
   const canvas = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -62,22 +62,20 @@ export default function ColorPicker({
 
       ctx.drawImage(img, 0, 0);
     };
-  }, [image]);
+  }, [image, canvasAvailable]);
 
   return (
     <div className="w-full p-4 bg-muted rounded-xl border flex flex-col gap-2">
       {alpha ? (
         <HexAlphaColorPicker
           color={color}
-          onChange={setColorPickerLocal}
-          onChangeEnd={() => setColor(colorPickerLocal)}
+          onChange={setColor}
           className="color-picker w-full! h-full! aspect-video"
         />
       ) : (
         <HexColorPicker
           color={color}
-          onChange={setColorPickerLocal}
-          onChangeEnd={() => setColor(colorPickerLocal)}
+          onChange={setColor}
           className="color-picker w-full! h-full! aspect-video"
         />
       )}
@@ -86,7 +84,7 @@ export default function ColorPicker({
           className={
             "pl-2 pr-2 pt-1.5 pb-1.5 rounded-full border-2 border-foreground text-sm font-mono w-full flex justify-center"
           }
-          style={{ backgroundColor: colorPickerLocal }}
+          style={{ backgroundColor: color }}
         >
           {alpha ? color.padEnd(9, "f").slice(1) : color.slice(0, 7).slice(1)}
         </div>
@@ -109,7 +107,10 @@ export default function ColorPicker({
             )}
             {image && (
               <canvas
-                ref={canvas}
+                ref={(el) => {
+                  canvas.current = el;
+                  setCanvasAvailable(!!el);
+                }}
                 className="w-full cursor-crosshair"
                 onClick={(e) => {
                   const ctx = canvas.current?.getContext("2d");
@@ -125,12 +126,13 @@ export default function ColorPicker({
                   const y = Math.floor((e.clientY - rect.top) * scaleY);
 
                   const rgb = ctx.getImageData(x, y, 1, 1).data;
-                  const hex = Array.from(rgb)
-                    .map((item) => item.toString(16).padStart(2, "0"))
-                    .join("");
+                  const hex =
+                    "#" +
+                    Array.from(rgb)
+                      .map((item) => item.toString(16).padStart(2, "0"))
+                      .join("");
 
                   setColor(hex);
-                  setColorPickerLocal(hex);
                 }}
               />
             )}
