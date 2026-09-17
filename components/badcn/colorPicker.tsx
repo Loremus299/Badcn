@@ -9,6 +9,7 @@ import {
 } from "../ui/context-menu";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import ImageInput from "./imageInput";
+import "./colorPicker.css";
 
 type Props = {
   defaultColorHex?: string;
