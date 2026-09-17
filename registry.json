@@ -107,13 +107,18 @@
     },
     {
       "name": "color-picker",
-      "description": "Color Picker with eyedropper, presets, sliders.",
+      "description": "Color Picker with sliders, color from image and presets.",
       "author": "Loremus",
       "authorContact": "https://web.loremus.gay/",
       "authorImage": "https://avatars.githubusercontent.com/u/230110912",
       "type": "registry:component",
-      "dependencies": ["react-hook-form"],
-      "registryDependencies": ["field"],
+      "dependencies": ["react-colorful"],
+      "registryDependencies": [
+        "button",
+        "context-menu",
+        "dialog",
+        "image-input"
+      ],
       "files": [
         {
           "path": "components/badcn/colorPicker.tsx",
