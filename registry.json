@@ -123,7 +123,8 @@
         {
           "path": "components/badcn/colorPicker.css",
           "type": "registry:file",
-          "target": "@components/badcn/colorPicker.css"
+          "target": "@components/badcn/colorPicker.css",
+          "demo": ""
         }
       ]
     }
