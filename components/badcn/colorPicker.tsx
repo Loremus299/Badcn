@@ -82,7 +82,7 @@ export default function ColorPicker({
             onChange={(e) => {
               setColor(e.currentTarget.value);
             }}
-            className="w-[7.5em]"
+            size={4}
           />
         </div>
         <Dialog>
