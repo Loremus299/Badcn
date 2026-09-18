@@ -30,9 +30,11 @@ export default function ColorPicker({
 }: Props) {
   const [color, setColor] = useState(defaultColorHex);
   const [hoverColor, setHoverColor] = useState("");
+  const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
   const [presets, setPresets] = useState(preset);
   const [image, setImage] = useState<string | undefined>(undefined);
   const canvas = useRef<HTMLCanvasElement>(null);
+  const [canvasAvailable, setCanvasAvailable] = useState(false);
 
   useEffect(() => {
     if (!image || !canvas.current) return;
@@ -51,7 +53,7 @@ export default function ColorPicker({
 
       ctx.drawImage(img, 0, 0);
     };
-  }, [image]);
+  }, [image, canvasAvailable]);
 
   return (
     <div className="w-full p-4 bg-muted rounded-xl border flex flex-col gap-2">
@@ -98,13 +100,12 @@ export default function ColorPicker({
                 }
               }}
             />
-            <div
-              style={{ backgroundColor: hoverColor }}
-              className="size-8"
-            ></div>
             {image && (
               <canvas
-                ref={canvas}
+                ref={(el) => {
+                  canvas.current = el;
+                  setCanvasAvailable(!!el);
+                }}
                 className="w-full cursor-crosshair rounded-xl border border-dashed p-1"
                 onMouseMove={(e) => {
                   const ctx = canvas.current?.getContext("2d");
@@ -127,6 +128,7 @@ export default function ColorPicker({
                       .join("");
 
                   setHoverColor(hex);
+                  setHoverPosition({ x, y });
                 }}
                 onClick={(e) => {
                   const ctx = canvas.current?.getContext("2d");
