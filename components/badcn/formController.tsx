@@ -6,7 +6,7 @@ import {
   Path,
   UseFormReturn,
 } from "react-hook-form";
-import { Field, FieldError, FieldLabel } from "../ui/field";
+import { Field, FieldDescription, FieldError, FieldLabel } from "../ui/field";
 
 export default function FormController<
   T extends FieldValues,
@@ -15,17 +15,16 @@ export default function FormController<
   form,
   name,
   label,
-  placeholder,
+  description,
   render,
 }: {
   form: UseFormReturn<T>;
   name: K;
   label: string;
-  placeholder: string;
+  description?: string;
   render: (args: {
     fieldState: ControllerFieldState;
     field: ControllerRenderProps<T, K>;
-    placeholder: string;
   }) => React.ReactNode;
 }) {
   return (
@@ -35,8 +34,8 @@ export default function FormController<
       render={({ field, fieldState }) => (
         <Field data-invalid={fieldState.invalid}>
           <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
+          {description && <FieldDescription>{description}</FieldDescription>}
           {render({
-            placeholder,
             field,
             fieldState,
           })}
