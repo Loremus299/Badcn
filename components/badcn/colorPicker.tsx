@@ -16,7 +16,6 @@ type Props = {
   alpha?: boolean;
   preset?: string[];
   editablePresets?: boolean;
-  defaultImage?: string;
   onPresetChange?: (preset: string[]) => void;
   onPick?: (final: string) => void;
 };
@@ -28,12 +27,11 @@ export default function ColorPicker({
   editablePresets = true,
   onPresetChange = () => {},
   onPick = () => {},
-  ...props
 }: Props) {
   const [color, setColor] = useState(defaultColorHex);
+  const [hoverColor, setHoverColor] = useState("");
   const [presets, setPresets] = useState(preset);
-  const [image, setImage] = useState<string | undefined>(props.defaultImage);
-  const [canvasAvailable, setCanvasAvailable] = useState(false);
+  const [image, setImage] = useState<string | undefined>(undefined);
   const canvas = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -53,7 +51,7 @@ export default function ColorPicker({
 
       ctx.drawImage(img, 0, 0);
     };
-  }, [image, canvasAvailable]);
+  }, [image]);
 
   return (
     <div className="w-full p-4 bg-muted rounded-xl border flex flex-col gap-2">
@@ -77,7 +75,13 @@ export default function ColorPicker({
           }
           style={{ backgroundColor: color }}
         >
-          {alpha ? color.padEnd(9, "f").slice(1) : color.slice(0, 7).slice(1)}
+          <input
+            value={color}
+            onChange={(e) => {
+              setColor(e.currentTarget.value);
+            }}
+            className="w-[7.5em]"
+          />
         </div>
         <Dialog>
           <DialogTrigger className={buttonVariants({ size: "lg" })}>
@@ -94,13 +98,36 @@ export default function ColorPicker({
                 }
               }}
             />
+            <div
+              style={{ backgroundColor: hoverColor }}
+              className="size-8"
+            ></div>
             {image && (
               <canvas
-                ref={(el) => {
-                  canvas.current = el;
-                  setCanvasAvailable(!!el);
-                }}
+                ref={canvas}
                 className="w-full cursor-crosshair rounded-xl border border-dashed p-1"
+                onMouseMove={(e) => {
+                  const ctx = canvas.current?.getContext("2d");
+
+                  if (!ctx || !canvas.current) return;
+
+                  const rect = canvas.current.getBoundingClientRect();
+
+                  const scaleX = canvas.current.width / rect.width;
+                  const scaleY = canvas.current.height / rect.height;
+
+                  const x = Math.floor((e.clientX - rect.left) * scaleX);
+                  const y = Math.floor((e.clientY - rect.top) * scaleY);
+
+                  const rgb = ctx.getImageData(x, y, 1, 1).data;
+                  const hex =
+                    "#" +
+                    Array.from(rgb)
+                      .map((item) => item.toString(16).padStart(2, "0"))
+                      .join("");
+
+                  setHoverColor(hex);
+                }}
                 onClick={(e) => {
                   const ctx = canvas.current?.getContext("2d");
 
