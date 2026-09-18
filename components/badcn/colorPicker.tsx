@@ -197,7 +197,7 @@ export default function ColorPicker({
           </Button>
         )}
       </div>
-      <Button onClick={() => onPick(color)}>Finalize.</Button>
+      <Button onClick={() => onPick(color)}>Pick Color.</Button>
     </div>
   );
 }
