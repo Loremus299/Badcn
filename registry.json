@@ -28,12 +28,17 @@
       "authorImage": "https://avatars.githubusercontent.com/u/230110912",
       "type": "registry:component",
       "dependencies": [],
-      "registryDependencies": ["button", "loading-button", "tooltip"],
+      "registryDependencies": ["button", "tooltip"],
       "files": [
         {
           "path": "components/badcn/tooltipButton.tsx",
           "type": "registry:component",
           "demo": "components/badcn/showcase/tooltipButton.tsx"
+        },
+        {
+          "path": "components/badcn/loadingButton.tsx",
+          "type": "registry:component",
+          "demo": "components/badcn/showcase/loadingButton.tsx"
         }
       ]
     },

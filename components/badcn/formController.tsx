@@ -8,16 +8,7 @@ import {
 } from "react-hook-form";
 import { Field, FieldDescription, FieldError, FieldLabel } from "../ui/field";
 
-export default function FormController<
-  T extends FieldValues,
-  K extends Path<T>,
->({
-  form,
-  name,
-  label,
-  description,
-  render,
-}: {
+type Props<T extends FieldValues, K extends Path<T>> = {
   form: UseFormReturn<T>;
   name: K;
   label: string;
@@ -26,7 +17,12 @@ export default function FormController<
     fieldState: ControllerFieldState;
     field: ControllerRenderProps<T, K>;
   }) => React.ReactNode;
-}) {
+};
+
+export default function FormController<
+  T extends FieldValues,
+  K extends Path<T>,
+>({ form, name, label, description, render }: Props<T, K>) {
   return (
     <Controller
       control={form.control}
