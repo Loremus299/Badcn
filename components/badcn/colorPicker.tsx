@@ -10,6 +10,8 @@ import {
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import ImageInput from "./imageInput";
 import "./colorPicker.css";
+import { Input } from "../ui/input";
+import { cn } from "@/lib/utils";
 
 type Props = {
   defaultColorHex?: string;
@@ -69,22 +71,18 @@ export default function ColorPicker({
         />
       )}
       <div className="grid grid-cols-2 items-center gap-2">
-        <div
-          className={
-            "pl-2 pr-2 pt-1.5 pb-1.5 rounded-full border-2 border-foreground text-sm font-mono w-full flex justify-center"
-          }
+        <Input
+          value={color}
           style={{ backgroundColor: color }}
-        >
-          <input
-            value={color}
-            onChange={(e) => {
-              setColor(e.currentTarget.value);
-            }}
-            size={color.length}
-          />
-        </div>
+          onChange={(e) => {
+            setColor(e.currentTarget.value);
+          }}
+          className="border-2 border-foreground h-8.5 font-mono"
+        />
         <Dialog>
-          <DialogTrigger className={buttonVariants({ size: "lg" })}>
+          <DialogTrigger
+            className={cn(buttonVariants({ size: "lg" }), "h-8.5")}
+          >
             From image.
           </DialogTrigger>
           <DialogContent>
@@ -114,7 +112,7 @@ export default function ColorPicker({
                     indicator.id =
                       "color-picker-preview-dont-use-this-id-for-anything-else-hopefully-or-doom-will-come-for-your-loved-ones";
                     indicator.className =
-                      "fixed size-8 rounded-full border-2 border-white shadow-md pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2";
+                      "fixed size-8 rounded-full border-2 border-foreground shadow-md pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2";
                     document.body.appendChild(indicator);
                   }
                 }}
