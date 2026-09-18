@@ -11,7 +11,10 @@
       "authorImage": "https://avatars.githubusercontent.com/u/230110912",
       "type": "registry:component",
       "dependencies": [],
-      "registryDependencies": ["button"],
+      "registryDependencies": [
+        "button",
+        "https://cn.loremus.gay/r/loading-button.json"
+      ],
       "files": [
         {
           "path": "components/badcn/loadingButton.tsx",
@@ -118,17 +121,18 @@
       "authorImage": "https://avatars.githubusercontent.com/u/230110912",
       "type": "registry:component",
       "dependencies": ["react-colorful"],
-      "registryDependencies": ["button", "context-menu", "dialog", "input"],
+      "registryDependencies": [
+        "button",
+        "context-menu",
+        "dialog",
+        "input",
+        "https://cn.loremus.gay/r/image-input.json"
+      ],
       "files": [
         {
           "path": "components/badcn/colorPicker.tsx",
           "type": "registry:component",
           "demo": "components/badcn/showcase/colorPicker.tsx"
-        },
-        {
-          "path": "components/badcn/imageInput.tsx",
-          "type": "registry:component",
-          "demo": "components/badcn/showcase/imageInput.tsx"
         },
         {
           "path": "components/badcn/colorPicker.css",
