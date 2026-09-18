@@ -29,8 +29,6 @@ export default function ColorPicker({
   onPick = () => {},
 }: Props) {
   const [color, setColor] = useState(defaultColorHex);
-  const [hoverColor, setHoverColor] = useState("");
-  const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
   const [presets, setPresets] = useState(preset);
   const [image, setImage] = useState<string | undefined>(undefined);
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -107,6 +105,27 @@ export default function ColorPicker({
                   setCanvasAvailable(!!el);
                 }}
                 className="w-full cursor-crosshair rounded-xl border border-dashed p-1"
+                onMouseEnter={() => {
+                  let indicator = document.getElementById(
+                    "color-picker-preview-dont-use-this-id-for-anything-else-hopefully-or-doom-will-come-for-your-loved-ones",
+                  );
+                  if (!indicator) {
+                    indicator = document.createElement("div");
+                    indicator.id =
+                      "color-picker-preview-dont-use-this-id-for-anything-else-hopefully-or-doom-will-come-for-your-loved-ones";
+                    indicator.className =
+                      "fixed size-8 rounded-full border-2 border-white shadow-md pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2";
+                    document.body.appendChild(indicator);
+                  }
+                }}
+                onMouseLeave={() => {
+                  const indicator = document.getElementById(
+                    "color-picker-preview-dont-use-this-id-for-anything-else-hopefully-or-doom-will-come-for-your-loved-ones",
+                  );
+                  if (indicator) {
+                    indicator.remove();
+                  }
+                }}
                 onMouseMove={(e) => {
                   const ctx = canvas.current?.getContext("2d");
 
@@ -127,8 +146,14 @@ export default function ColorPicker({
                       .map((item) => item.toString(16).padStart(2, "0"))
                       .join("");
 
-                  setHoverColor(hex);
-                  setHoverPosition({ x, y });
+                  const indicator = document.getElementById(
+                    "color-picker-preview-dont-use-this-id-for-anything-else-hopefully-or-doom-will-come-for-your-loved-ones",
+                  );
+                  if (indicator) {
+                    indicator.style.backgroundColor = hex;
+                    indicator.style.left = `${e.clientX + 20}px`;
+                    indicator.style.top = `${e.clientY - 20}px`;
+                  }
                 }}
                 onClick={(e) => {
                   const ctx = canvas.current?.getContext("2d");
