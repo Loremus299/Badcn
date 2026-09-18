@@ -104,6 +104,29 @@
           "demo": "components/badcn/showcase/formController.tsx"
         }
       ]
+    },
+    {
+      "name": "color-picker",
+      "description": "Color Picker with sliders, color from image and presets.",
+      "author": "Loremus",
+      "authorContact": "https://web.loremus.gay/",
+      "authorImage": "https://avatars.githubusercontent.com/u/230110912",
+      "type": "registry:component",
+      "dependencies": ["react-colorful"],
+      "registryDependencies": ["button", "context-menu", "dialog"],
+      "files": [
+        {
+          "path": "components/badcn/colorPicker.tsx",
+          "type": "registry:component",
+          "demo": "components/badcn/showcase/colorPicker.tsx"
+        },
+        {
+          "path": "components/badcn/colorPicker.css",
+          "type": "registry:file",
+          "target": "@components/badcn/colorPicker.css",
+          "demo": ""
+        }
+      ]
     }
   ]
 }
