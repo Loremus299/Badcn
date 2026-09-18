@@ -113,7 +113,7 @@
       "authorImage": "https://avatars.githubusercontent.com/u/230110912",
       "type": "registry:component",
       "dependencies": ["react-colorful"],
-      "registryDependencies": ["button", "context-menu", "dialog"],
+      "registryDependencies": ["button", "context-menu", "dialog", "input"],
       "files": [
         {
           "path": "components/badcn/colorPicker.tsx",
