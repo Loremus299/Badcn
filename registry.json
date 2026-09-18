@@ -121,6 +121,11 @@
           "demo": "components/badcn/showcase/colorPicker.tsx"
         },
         {
+          "path": "components/badcn/imageInput.tsx",
+          "type": "registry:component",
+          "demo": "components/badcn/showcase/imageInput.tsx"
+        },
+        {
           "path": "components/badcn/colorPicker.css",
           "type": "registry:file",
           "target": "@components/badcn/colorPicker.css",
