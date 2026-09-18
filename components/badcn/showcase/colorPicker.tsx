@@ -3,8 +3,9 @@ import ColorPicker from "../colorPicker";
 
 export default function ColorPickerDemo() {
   return (
-    <div className="w-full max-w-md p-16 ">
+    <div className="w-full max-w-md p-16 pl-8 pr-8">
       <ColorPicker
+        alpha={false}
         onPick={(e) => {
           toast.add({ title: `Nice color ${e}` });
         }}

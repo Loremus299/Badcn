@@ -169,9 +169,15 @@ export default function ColorPicker({
                   const y = Math.floor((e.clientY - rect.top) * scaleY);
 
                   const rgb = ctx.getImageData(x, y, 1, 1).data;
+                  const hexArr = Array.from(rgb);
+
+                  if (!!!alpha) {
+                    hexArr.pop();
+                  }
+
                   const hex =
                     "#" +
-                    Array.from(rgb)
+                    hexArr
                       .map((item) => item.toString(16).padStart(2, "0"))
                       .join("");
 
