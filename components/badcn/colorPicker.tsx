@@ -80,7 +80,7 @@ export default function ColorPicker({
             onChange={(e) => {
               setColor(e.currentTarget.value);
             }}
-            size={alpha ? 9 : 7}
+            size={color.length - 3}
           />
         </div>
         <Dialog>
