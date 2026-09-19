@@ -94,9 +94,9 @@ export default function SwapyGrid({
         {children}
         <div
           {...props}
-          className={cn("grid gap-4", className)}
+          className={cn("grid gap-4 w-80", className)}
           style={{
-            gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
+            gridTemplateColumns: `repeat(${cols}, ${100 / cols}%)`,
           }}
           ref={container}
         >
