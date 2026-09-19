@@ -3,7 +3,7 @@ import SwapyGrid, { SwapyEdit } from "../swapyGrid";
 
 export default function SwapyGridDemo() {
   return (
-    <div className="p-16">
+    <div className="p-16 w-full max-w-sm">
       <SwapyGrid
         className="gap-2"
         layoutStyle="grid gap-2"
@@ -12,7 +12,7 @@ export default function SwapyGridDemo() {
         initialSwapyData={[
           { id: "hi", col: 1, row: 1, node: <SwapyNode>Hi</SwapyNode> },
           { id: "try", col: 1, row: 1, node: <SwapyNode>Try</SwapyNode> },
-          { id: "bye", col: 2, row: 1, node: <SwapyNode>Bye</SwapyNode> },
+          { id: "bye", col: 3, row: 1, node: <SwapyNode>Bye</SwapyNode> },
         ]}
       >
         <div>
@@ -25,7 +25,7 @@ export default function SwapyGridDemo() {
 
 function SwapyNode({ children }: { children: ReactNode }) {
   return (
-    <div className="w-12 h-8 rounded-md border border-muted text-sm tracking-wide grid place-items-center bg-foreground text-background">
+    <div className="w-full h-8 rounded-md border border-muted text-sm tracking-wide grid place-items-center bg-foreground text-background">
       {children}
     </div>
   );

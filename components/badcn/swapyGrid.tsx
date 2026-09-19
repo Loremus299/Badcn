@@ -38,6 +38,8 @@ type Props = ComponentProps<"div"> & {
 };
 
 const SwapyContext = createContext<{
+  swapyData: Array<SwapyNode>;
+  setSwapyData: Dispatch<SetStateAction<SwapyNode[]>>;
   cols: number;
   setCols: Dispatch<SetStateAction<number>>;
   edit: boolean;
@@ -89,21 +91,27 @@ export default function SwapyGrid({
   }, [edit, onSwap, onSwapEnd, onSwapStart]);
 
   return (
-    <SwapyContext.Provider value={{ cols, setCols, edit, setEdit }}>
+    <SwapyContext.Provider
+      value={{ swapyData, setSwapyData, cols, setCols, edit, setEdit }}
+    >
       <div className={layoutStyle}>
         {children}
         <div
           {...props}
-          className={cn("grid gap-4 w-80", className)}
+          className={cn("grid gap-4", className)}
           style={{
             gridTemplateColumns: `repeat(${cols}, ${100 / cols}%)`,
           }}
           ref={container}
         >
           {swapyData.map((item) => (
-            <div key={item.id} data-swapy-slot={`slot-${item.id}`}>
-              <div data-swapy-item={`item-${item.id}`}>{item.node}</div>
-            </div>
+            <SwapyItem
+              key={item.id}
+              id={item.id}
+              col={item.col}
+              row={item.row}
+              node={item.node}
+            />
           ))}
           <Button
             onClick={() => {
@@ -123,6 +131,22 @@ export default function SwapyGrid({
         </div>
       </div>
     </SwapyContext.Provider>
+  );
+}
+
+export function SwapyItem(item: SwapyNode) {
+  return (
+    <div key={item.id} data-swapy-slot={`slot-${item.id}`}>
+      <div
+        data-swapy-item={`item-${item.id}`}
+        style={{
+          gridRow: `span ${item.row} / span ${item.row}`,
+          gridColumn: `span ${item.col} / span ${item.col}`,
+        }}
+      >
+        {item.node}
+      </div>
+    </div>
   );
 }
 
