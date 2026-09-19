@@ -7,7 +7,7 @@ export default function DebounceInputDemo() {
   const [debV, setDebV] = useState(defaultValue);
 
   return (
-    <div className="grid gap-2 p-16">
+    <div className="grid gap-2 p-16 max-w-sm wrap-anywhere">
       <DebounceInput
         placeholder="Input Value"
         defaultValue={defaultValue}
