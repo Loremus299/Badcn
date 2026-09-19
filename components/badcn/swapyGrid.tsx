@@ -134,7 +134,7 @@ export default function SwapyGrid({
   );
 }
 
-export function SwapyItem(item: SwapyNode) {
+function SwapyItem(item: SwapyNode) {
   return (
     <div key={item.id} data-swapy-slot={`slot-${item.id}`}>
       <div
