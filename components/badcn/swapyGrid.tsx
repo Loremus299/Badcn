@@ -1,6 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { cn } from "@/lib/utils";
-import { ComponentProps, ReactNode, useEffect, useRef, useState } from "react";
+import {
+  ComponentProps,
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   createSwapy,
   type Swapy,
@@ -8,6 +17,7 @@ import {
   type SwapEvent,
   type SwapStartEvent,
 } from "swapy";
+import { Button } from "../ui/button";
 
 export interface SwapyNode {
   id: string;
@@ -19,24 +29,40 @@ export interface SwapyNode {
 type Props = ComponentProps<"div"> & {
   initialSwapyData?: Array<SwapyNode>;
   initialsCols?: number;
+  initialEdit?: boolean;
   onSwap?: (arg: SwapEvent) => void;
   onSwapStart?: (arg: SwapStartEvent) => void;
   onSwapEnd?: (arg: SwapEndEvent) => void;
+  defaultComponent?: ReactNode;
+  layoutStyle?: string;
 };
+
+const SwapyContext = createContext<{
+  cols: number;
+  setCols: Dispatch<SetStateAction<number>>;
+  edit: boolean;
+  setEdit: Dispatch<SetStateAction<boolean>>;
+} | null>(null);
 
 export default function SwapyGrid({
   initialSwapyData = [],
   initialsCols = 2,
+  initialEdit = true,
   onSwap = () => {},
   onSwapStart = () => {},
   onSwapEnd = () => {},
+  defaultComponent,
+  layoutStyle,
   className,
   children,
+
   ...props
 }: Props) {
   const swapy = useRef<Swapy>(null);
   const container = useRef<HTMLDivElement>(null);
+  const [swapyData, setSwapyData] = useState(initialSwapyData);
   const [cols, setCols] = useState(initialsCols);
+  const [edit, setEdit] = useState(initialEdit);
 
   useEffect(() => {
     if (!container.current) return;
@@ -54,29 +80,58 @@ export default function SwapyGrid({
       onSwapEnd(event);
     });
 
+    swapy.current.enable(edit);
+
     return () => {
       swapy.current?.destroy();
       swapy.current = null;
     };
-  }, [onSwap, onSwapEnd, onSwapStart]);
+  }, [edit, onSwap, onSwapEnd, onSwapStart]);
 
   return (
-    <div>
-      {children}
-      <div
-        {...props}
-        className={cn("grid gap-4", className)}
-        style={{
-          gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
-        }}
-        ref={container}
-      >
-        {initialSwapyData.map((item) => (
-          <div key={item.id} data-swapy-slot={`slot-${item.id}`}>
-            <div data-swapy-item={`item-${item.id}`}>{item.node}</div>
-          </div>
-        ))}
+    <SwapyContext.Provider value={{ cols, setCols, edit, setEdit }}>
+      <div className={layoutStyle}>
+        {children}
+        <div
+          {...props}
+          className={cn("grid gap-4", className)}
+          style={{
+            gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
+          }}
+          ref={container}
+        >
+          {swapyData.map((item) => (
+            <div key={item.id} data-swapy-slot={`slot-${item.id}`}>
+              <div data-swapy-item={`item-${item.id}`}>{item.node}</div>
+            </div>
+          ))}
+          <Button
+            onClick={() => {
+              setSwapyData([
+                ...swapyData,
+                {
+                  id: globalThis.crypto.randomUUID(),
+                  col: 1,
+                  row: 1,
+                  node: defaultComponent,
+                },
+              ]);
+            }}
+          >
+            +
+          </Button>
+        </div>
       </div>
-    </div>
+    </SwapyContext.Provider>
+  );
+}
+
+export function SwapyEdit() {
+  const ctx = useContext(SwapyContext);
+
+  return (
+    <Button onClick={() => ctx?.setEdit(!ctx.edit)}>
+      {ctx?.edit ? "Lock" : "Edit"}
+    </Button>
   );
 }
