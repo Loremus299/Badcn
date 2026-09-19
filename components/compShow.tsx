@@ -12,21 +12,23 @@ export default function ComponentShowcase({
   url: string;
 }) {
   return (
-    <div>
-      <div className="w-full aspect-video border bg-card rounded-md @container grid place-items-center overflow-hidden">
-        <div className="-mt-12">{children}</div>
+    <div className="bg-card border rounded-md">
+      <div className="aspect-video grid place-items-center overflow-hidden overflow-y-scroll">
+        {children}
       </div>
-      <Link href={url}>
-        <div className="-mt-12 text-sm">
-          <h6 className="ml-3">
-            {name
-              .split("-")
-              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-              .join(" ")}
-          </h6>
-          <p className="ml-3 text-muted-foreground text-xs">{description}</p>
-        </div>
-      </Link>
+      <div className="p-4 pt-3 pb-3 border-t">
+        <Link href={url}>
+          <div className="text-sm">
+            <h6>
+              {name
+                .split("-")
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(" ")}
+            </h6>
+            <p className="text-muted-foreground text-xs">{description}</p>
+          </div>
+        </Link>
+      </div>
     </div>
   );
 }
