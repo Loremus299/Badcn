@@ -136,16 +136,15 @@ export default function SwapyGrid({
 
 function SwapyItem(item: SwapyNode) {
   return (
-    <div key={item.id} data-swapy-slot={`slot-${item.id}`}>
-      <div
-        data-swapy-item={`item-${item.id}`}
-        style={{
-          gridRow: `span ${item.row} / span ${item.row}`,
-          gridColumn: `span ${item.col} / span ${item.col}`,
-        }}
-      >
-        {item.node}
-      </div>
+    <div
+      key={item.id}
+      data-swapy-slot={`slot-${item.id}`}
+      style={{
+        gridRow: `span ${item.row} / span ${item.row}`,
+        gridColumn: `span ${item.col} / span ${item.col}`,
+      }}
+    >
+      <div data-swapy-item={`item-${item.id}`}>{item.node}</div>
     </div>
   );
 }
