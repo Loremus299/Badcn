@@ -141,6 +141,23 @@
           "demo": ""
         }
       ]
+    },
+    {
+      "name": "swapy-grid",
+      "description": "Dynamic drag and drop grid with Swapy.",
+      "author": "Loremus",
+      "authorContact": "https://web.loremus.gay/",
+      "authorImage": "https://avatars.githubusercontent.com/u/230110912",
+      "type": "registry:component",
+      "dependencies": ["swapy"],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "components/badcn/swapyGrid.tsx",
+          "type": "registry:component",
+          "demo": "components/badcn/showcase/swapyGrid.tsx"
+        }
+      ]
     }
   ]
 }
