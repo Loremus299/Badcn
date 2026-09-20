@@ -10,8 +10,8 @@ export default function SwapyGridDemo() {
         defaultComponent={<DemoDisplay>Hi</DemoDisplay>}
         initialSwapyData={[
           { id: "hi", col: 1, row: 2, node: <DemoDisplay>Hi</DemoDisplay> },
-          { id: "try", col: 2, row: 1, node: <DemoDisplay>Hi</DemoDisplay> },
-          { id: "bye", col: 2, row: 1, node: <DemoDisplay>Hi</DemoDisplay> },
+          { id: "try", col: 2, row: 1, node: <DemoDisplay>Bye</DemoDisplay> },
+          { id: "bye", col: 2, row: 1, node: <DemoDisplay>Try</DemoDisplay> },
         ]}
       />
     </div>
