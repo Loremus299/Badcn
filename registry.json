@@ -11,10 +11,7 @@
       "authorImage": "https://avatars.githubusercontent.com/u/230110912",
       "type": "registry:component",
       "dependencies": [],
-      "registryDependencies": [
-        "button",
-        "https://cn.loremus.gay/r/loading-button.json"
-      ],
+      "registryDependencies": ["button"],
       "files": [
         {
           "path": "components/badcn/loadingButton.tsx",
@@ -31,7 +28,11 @@
       "authorImage": "https://avatars.githubusercontent.com/u/230110912",
       "type": "registry:component",
       "dependencies": [],
-      "registryDependencies": ["button", "tooltip"],
+      "registryDependencies": [
+        "button",
+        "tooltip",
+        "https://cn.loremus.gay/r/loading-button.json"
+      ],
       "files": [
         {
           "path": "components/badcn/tooltipButton.tsx",
@@ -150,7 +151,7 @@
       "authorImage": "https://avatars.githubusercontent.com/u/230110912",
       "type": "registry:component",
       "dependencies": ["swapy"],
-      "registryDependencies": [],
+      "registryDependencies": ["button"],
       "files": [
         {
           "path": "components/badcn/swapyGrid.tsx",
