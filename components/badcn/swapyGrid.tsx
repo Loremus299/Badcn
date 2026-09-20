@@ -205,7 +205,7 @@ function SwapyItem(item: SwapyNode) {
         {ctx?.edit && showEdit && (
           <>
             <div className="relative">
-              <div className="absolute bg-muted -mt-2 -ml-2">
+              <div className="absolute bg-muted rounded-tl-md -mt-2 -ml-2">
                 <SwapyItemDel
                   id={item.id}
                   className={"rounded-none text-xs"}
@@ -215,7 +215,7 @@ function SwapyItem(item: SwapyNode) {
               </div>
             </div>
             <div className="relative">
-              <div className="absolute bg-muted -mt-2 ml-3 pl-3 flex items-center gap-4">
+              <div className="absolute bg-muted rounded-r-md -mt-2 ml-3 pl-3 flex items-center gap-4">
                 <SwapyItemSubCol
                   id={item.id}
                   className={"rounded-none w-1"}
@@ -232,7 +232,7 @@ function SwapyItem(item: SwapyNode) {
               </div>
             </div>
             <div className="relative">
-              <div className="absolute bg-muted mt-4 -ml-2 grid place-items-center">
+              <div className="absolute bg-muted rounded-b-md mt-4 -ml-2 grid place-items-center">
                 <SwapyItemSubRow
                   id={item.id}
                   className={"rounded-none"}
