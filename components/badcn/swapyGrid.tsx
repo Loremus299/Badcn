@@ -148,7 +148,7 @@ export default function SwapyGrid({
 type ButtonProps = ComponentProps<typeof Button>;
 type DivProps = ComponentProps<"div">;
 
-export function SwapyDisplay(props: DivProps) {
+function SwapyDisplay(props: DivProps) {
   const ctx = useContext(SwapyContext);
 
   return <div {...props}>{ctx?.cols}</div>;
@@ -164,7 +164,7 @@ export function SwapyEdit(props: ButtonProps) {
   );
 }
 
-export function SwapyAdd(props: ButtonProps) {
+function SwapyAdd(props: ButtonProps) {
   const ctx = useContext(SwapyContext);
   return (
     <Button {...props} onClick={() => ctx?.setCols(ctx.cols + 1)}>
@@ -173,7 +173,7 @@ export function SwapyAdd(props: ButtonProps) {
   );
 }
 
-export function SwapySub(props: ButtonProps) {
+function SwapySub(props: ButtonProps) {
   const ctx = useContext(SwapyContext);
   if (ctx?.cols == 1) {
     return "";
@@ -357,7 +357,7 @@ function SwapyItemDel(props: ButtonProps & { id: string }) {
   );
 }
 
-export function SwapyColDisplay(props: DivProps & { id: string }) {
+function SwapyColDisplay(props: DivProps & { id: string }) {
   const ctx = useContext(SwapyContext);
   const cur = ctx?.swapyData.find((x) => x.id === props.id);
   if (!cur) return;
@@ -365,7 +365,7 @@ export function SwapyColDisplay(props: DivProps & { id: string }) {
   return <div {...props}>{cur.col}</div>;
 }
 
-export function SwapyRowDisplay(props: DivProps & { id: string }) {
+function SwapyRowDisplay(props: DivProps & { id: string }) {
   const ctx = useContext(SwapyContext);
   const cur = ctx?.swapyData.find((x) => x.id === props.id);
   if (!cur) return;
