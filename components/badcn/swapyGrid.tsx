@@ -122,21 +122,23 @@ export default function SwapyGrid({
               node={item.node}
             />
           ))}
-          <Button
-            onClick={() => {
-              setSwapyData([
-                ...swapyData,
-                {
-                  id: globalThis.crypto.randomUUID(),
-                  col: 1,
-                  row: 1,
-                  node: defaultComponent,
-                },
-              ]);
-            }}
-          >
-            +
-          </Button>
+          {edit && (
+            <Button
+              onClick={() => {
+                setSwapyData([
+                  ...swapyData,
+                  {
+                    id: globalThis.crypto.randomUUID(),
+                    col: 1,
+                    row: 1,
+                    node: defaultComponent,
+                  },
+                ]);
+              }}
+            >
+              +
+            </Button>
+          )}
         </div>
       </div>
     </SwapyContext.Provider>
@@ -185,18 +187,22 @@ export function SwapySub(props: ButtonProps) {
 
 function SwapyItem(item: SwapyNode) {
   const ctx = useContext(SwapyContext);
+  const [showEdit, setShowEdit] = useState(false);
+
   return (
     <div
       key={item.id}
       data-swapy-slot={`slot-${item.id}`}
       className="h-full w-full"
+      onMouseEnter={() => setShowEdit(true)}
+      onMouseLeave={() => setShowEdit(false)}
       style={{
         gridRow: `span ${item.row} / span ${item.row}`,
         gridColumn: `span ${item.col} / span ${item.col}`,
       }}
     >
       <div className="h-full w-full" data-swapy-item={`item-${item.id}`}>
-        {ctx?.edit && (
+        {ctx?.edit && showEdit && (
           <>
             <div className="relative">
               <div className="absolute ml-2 -mt-2 bg-muted rounded-md h-4 flex items-center">
