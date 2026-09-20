@@ -205,42 +205,46 @@ function SwapyItem(item: SwapyNode) {
         {ctx?.edit && showEdit && (
           <>
             <div className="relative">
-              <div className="absolute ml-2 -mt-2 bg-muted rounded-md h-4 flex items-center">
+              <div className="absolute bg-muted -mt-2 -ml-2">
                 <SwapyItemDel
-                  size={"icon-xs"}
-                  variant={"ghost"}
-                  className={"w-4"}
                   id={item.id}
-                />
-                <SwapyItemSubCol
-                  id={item.id}
-                  size={"icon-xs"}
+                  className={"rounded-none text-xs"}
                   variant={"ghost"}
-                  className={"w-4"}
-                />
-                <SwapyColDisplay id={item.id} className="text-xs" />
-                <SwapyItemAddCol
-                  id={item.id}
                   size={"icon-xs"}
-                  variant={"ghost"}
-                  className={"w-4"}
                 />
               </div>
             </div>
             <div className="relative">
-              <div className="absolute -ml-2 rounded-md w-4 bg-muted grid place-items-center">
+              <div className="absolute bg-muted -mt-2 ml-3 pl-3 flex items-center gap-4">
+                <SwapyItemSubCol
+                  id={item.id}
+                  className={"rounded-none w-1"}
+                  variant={"ghost"}
+                  size={"icon-xs"}
+                />
+                <SwapyColDisplay id={item.id} className="text-xs" />
+                <SwapyItemAddCol
+                  id={item.id}
+                  className={"rounded-none w-1 mr-2"}
+                  variant={"ghost"}
+                  size={"icon-xs"}
+                />
+              </div>
+            </div>
+            <div className="relative">
+              <div className="absolute bg-muted mt-4 -ml-2 grid place-items-center">
                 <SwapyItemSubRow
                   id={item.id}
-                  size={"icon-xs"}
+                  className={"rounded-none"}
                   variant={"ghost"}
-                  className={"w-4"}
+                  size={"icon-xs"}
                 />
-                <SwapyRowDisplay id={item.id} className="text-xs" />
+                <SwapyRowDisplay id={item.id} className="text-xs pt-2" />
                 <SwapyItemAddRow
                   id={item.id}
-                  size={"icon-xs"}
+                  className={"rounded-none"}
                   variant={"ghost"}
-                  className={"w-4"}
+                  size={"icon-xs"}
                 />
               </div>
             </div>
