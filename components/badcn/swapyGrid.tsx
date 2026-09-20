@@ -61,20 +61,12 @@ export default function SwapyGrid({
   const [swapyData, setSwapyData] = useState(initialSwapyData);
   const [cols, setCols] = useState(initialsCols);
   const [edit, setEdit] = useState(initialEdit);
-  const swappingAddresses = useRef({ from: "", to: "" });
 
   useEffect(() => {
     if (!container.current) return;
     swapy.current = createSwapy(container.current);
 
     swapy.current.onSwap((event) => {
-      const from = event.fromSlot.replace("slot-", "");
-      const to = event.toSlot.replace("slot-", "");
-      swappingAddresses.current = {
-        from,
-        to,
-      };
-
       onSwap(event);
     });
 
@@ -84,24 +76,23 @@ export default function SwapyGrid({
 
     swapy.current.onSwapEnd((event) => {
       if (event.hasChanged) {
-        const map = event.slotItemMap.asArray;
+        const slotMap = event.slotItemMap.asArray;
 
         setSwapyData((prev) => {
           const prevMap = new Map(prev.map((item) => [item.id, item]));
-
           const slotDimensions = prev.map((item) => ({
             col: item.col,
             row: item.row,
           }));
 
-          const newSwapyData: SwapyNode[] = [];
+          const nextData: SwapyNode[] = [];
 
-          map.forEach((mapping: { item: string }, index: number) => {
-            const itemId = mapping.item.replace("item-", "");
+          slotMap.forEach((entry: { item: string }, index: number) => {
+            const itemId = entry.item.replace("item-", "");
             const item = prevMap.get(itemId);
 
             if (item) {
-              newSwapyData.push({
+              nextData.push({
                 ...item,
                 col: slotDimensions[index].col,
                 row: slotDimensions[index].row,
@@ -109,12 +100,12 @@ export default function SwapyGrid({
             }
           });
 
-          return newSwapyData;
+          return nextData.length === prev.length ? nextData : prev;
         });
       }
-
       onSwapEnd(event);
     });
+
     swapy.current.enable(edit);
 
     return () => {
