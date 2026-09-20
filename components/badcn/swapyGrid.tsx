@@ -90,8 +90,8 @@ export default function SwapyGrid({
     <SwapyContext.Provider
       value={{ swapyData, setSwapyData, cols, setCols, edit, setEdit }}
     >
-      <div className="grid gap-2">
-        <div className="flex items-center justify-between">
+      <div className="grid gap-4">
+        <div className="flex items-center gap-2">
           <SwapyEdit
             variant={"secondary"}
             size={"icon-xs"}
@@ -184,19 +184,164 @@ export function SwapySub(props: ButtonProps) {
 }
 
 function SwapyItem(item: SwapyNode) {
+  const ctx = useContext(SwapyContext);
   return (
     <div
       key={item.id}
       data-swapy-slot={`slot-${item.id}`}
       className="h-full w-full"
       style={{
-        gridRow: `span ${item.row}`,
-        gridColumn: `span ${item.col}`,
+        gridRow: `span ${item.row} / span ${item.row}`,
+        gridColumn: `span ${item.col} / span ${item.col}`,
       }}
     >
       <div className="h-full w-full" data-swapy-item={`item-${item.id}`}>
+        {ctx?.edit && (
+          <>
+            <div className="relative">
+              <div className="absolute ml-2 -mt-2 bg-muted rounded-md h-4 flex items-center">
+                <SwapyItemSubCol
+                  id={item.id}
+                  size={"icon-xs"}
+                  variant={"ghost"}
+                  className={"w-4"}
+                />
+                <SwapyColDisplay id={item.id} className="text-xs" />
+                <SwapyItemAddCol
+                  id={item.id}
+                  size={"icon-xs"}
+                  variant={"ghost"}
+                  className={"w-4"}
+                />
+              </div>
+            </div>
+            <div className="relative">
+              <div className="absolute -ml-2 rounded-md w-4 bg-muted grid place-items-center">
+                <SwapyItemSubRow
+                  id={item.id}
+                  size={"icon-xs"}
+                  variant={"ghost"}
+                  className={"w-4"}
+                />
+                <SwapyRowDisplay id={item.id} className="text-xs" />
+                <SwapyItemAddRow
+                  id={item.id}
+                  size={"icon-xs"}
+                  variant={"ghost"}
+                  className={"w-4"}
+                />
+              </div>
+            </div>
+          </>
+        )}
         {item.node}
       </div>
     </div>
   );
+}
+
+function SwapyItemAddCol(props: ButtonProps & { id: string }) {
+  const ctx = useContext(SwapyContext);
+  const cur = ctx?.swapyData.find((x) => x.id === props.id);
+  if (!cur) return;
+
+  if (cur.col === ctx?.cols) return;
+
+  return (
+    <Button
+      {...props}
+      onClick={() => {
+        ctx?.setSwapyData(
+          ctx.swapyData.map((item) =>
+            item.id === cur.id ? { ...item, col: item.col + 1 } : item,
+          ),
+        );
+      }}
+    >
+      +
+    </Button>
+  );
+}
+
+function SwapyItemSubCol(props: ButtonProps & { id: string }) {
+  const ctx = useContext(SwapyContext);
+  const cur = ctx?.swapyData.find((x) => x.id === props.id);
+  if (!cur) return;
+
+  if (cur.col === 1) return;
+
+  return (
+    <Button
+      {...props}
+      onClick={() => {
+        ctx?.setSwapyData(
+          ctx.swapyData.map((item) =>
+            item.id === cur.id ? { ...item, col: item.col - 1 } : item,
+          ),
+        );
+      }}
+    >
+      -
+    </Button>
+  );
+}
+
+function SwapyItemAddRow(props: ButtonProps & { id: string }) {
+  const ctx = useContext(SwapyContext);
+  const cur = ctx?.swapyData.find((x) => x.id === props.id);
+  if (!cur) return;
+
+  return (
+    <Button
+      {...props}
+      onClick={() => {
+        ctx?.setSwapyData(
+          ctx.swapyData.map((item) =>
+            item.id === cur.id ? { ...item, row: item.row + 1 } : item,
+          ),
+        );
+      }}
+    >
+      +
+    </Button>
+  );
+}
+
+function SwapyItemSubRow(props: ButtonProps & { id: string }) {
+  const ctx = useContext(SwapyContext);
+  const cur = ctx?.swapyData.find((x) => x.id === props.id);
+  if (!cur) return;
+
+  if (cur.row === 1) return;
+
+  return (
+    <Button
+      {...props}
+      onClick={() => {
+        ctx?.setSwapyData(
+          ctx.swapyData.map((item) =>
+            item.id === cur.id ? { ...item, row: item.row - 1 } : item,
+          ),
+        );
+      }}
+    >
+      -
+    </Button>
+  );
+}
+
+export function SwapyColDisplay(props: DivProps & { id: string }) {
+  const ctx = useContext(SwapyContext);
+  const cur = ctx?.swapyData.find((x) => x.id === props.id);
+  if (!cur) return;
+
+  return <div {...props}>{cur.col}</div>;
+}
+
+export function SwapyRowDisplay(props: DivProps & { id: string }) {
+  const ctx = useContext(SwapyContext);
+  const cur = ctx?.swapyData.find((x) => x.id === props.id);
+  if (!cur) return;
+
+  return <div {...props}>{cur.row}</div>;
 }
