@@ -134,21 +134,6 @@ export default function SwapyGrid({
   );
 }
 
-function SwapyItem(item: SwapyNode) {
-  return (
-    <div
-      key={item.id}
-      data-swapy-slot={`slot-${item.id}`}
-      style={{
-        gridRow: `span ${item.row} / span ${item.row}`,
-        gridColumn: `span ${item.col} / span ${item.col}`,
-      }}
-    >
-      <div data-swapy-item={`item-${item.id}`}>{item.node}</div>
-    </div>
-  );
-}
-
 export function SwapyEdit() {
   const ctx = useContext(SwapyContext);
 
@@ -156,5 +141,23 @@ export function SwapyEdit() {
     <Button onClick={() => ctx?.setEdit(!ctx.edit)}>
       {ctx?.edit ? "Lock" : "Edit"}
     </Button>
+  );
+}
+
+function SwapyItem(item: SwapyNode) {
+  return (
+    <div
+      key={item.id}
+      data-swapy-slot={`slot-${item.id}`}
+      className="h-full w-full"
+      style={{
+        gridRow: `span ${item.row}`,
+        gridColumn: `span ${item.col}`,
+      }}
+    >
+      <div className="h-full w-full" data-swapy-item={`item-${item.id}`}>
+        {item.node}
+      </div>
+    </div>
   );
 }
