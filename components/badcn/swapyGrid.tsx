@@ -206,6 +206,12 @@ function SwapyItem(item: SwapyNode) {
           <>
             <div className="relative">
               <div className="absolute ml-2 -mt-2 bg-muted rounded-md h-4 flex items-center">
+                <SwapyItemDel
+                  size={"icon-xs"}
+                  variant={"ghost"}
+                  className={"w-4"}
+                  id={item.id}
+                />
                 <SwapyItemSubCol
                   id={item.id}
                   size={"icon-xs"}
@@ -332,6 +338,21 @@ function SwapyItemSubRow(props: ButtonProps & { id: string }) {
       }}
     >
       -
+    </Button>
+  );
+}
+
+function SwapyItemDel(props: ButtonProps & { id: string }) {
+  const ctx = useContext(SwapyContext);
+
+  return (
+    <Button
+      {...props}
+      onClick={() => {
+        ctx?.setSwapyData(ctx.swapyData.filter((item) => item.id !== props.id));
+      }}
+    >
+      🗑️
     </Button>
   );
 }
