@@ -34,7 +34,6 @@ type Props = ComponentProps<"div"> & {
   onSwapStart?: (arg: SwapStartEvent) => void;
   onSwapEnd?: (arg: SwapEndEvent) => void;
   defaultComponent?: ReactNode;
-  layoutStyle?: string;
 };
 
 const SwapyContext = createContext<{
@@ -54,10 +53,7 @@ export default function SwapyGrid({
   onSwapStart = () => {},
   onSwapEnd = () => {},
   defaultComponent,
-  layoutStyle,
   className,
-  children,
-
   ...props
 }: Props) {
   const swapy = useRef<Swapy>(null);
@@ -94,8 +90,21 @@ export default function SwapyGrid({
     <SwapyContext.Provider
       value={{ swapyData, setSwapyData, cols, setCols, edit, setEdit }}
     >
-      <div className={layoutStyle}>
-        {children}
+      <div className="grid gap-2">
+        <div className="flex items-center justify-between">
+          <SwapyEdit
+            variant={"secondary"}
+            size={"icon-xs"}
+            className={"text-xs"}
+          />
+          {edit && (
+            <div className="flex gap-1 items-center bg-background rounded-md">
+              <SwapySub variant={"ghost"} size={"icon-xs"} />
+              <SwapyDisplay className="text-xs" />
+              <SwapyAdd variant={"ghost"} size={"icon-xs"} />
+            </div>
+          )}
+        </div>
         <div
           {...props}
           className={cn("grid gap-4", className)}
@@ -134,12 +143,42 @@ export default function SwapyGrid({
   );
 }
 
-export function SwapyEdit() {
+type ButtonProps = ComponentProps<typeof Button>;
+type DivProps = ComponentProps<"div">;
+
+export function SwapyDisplay(props: DivProps) {
+  const ctx = useContext(SwapyContext);
+
+  return <div {...props}>{ctx?.cols}</div>;
+}
+
+export function SwapyEdit(props: ButtonProps) {
   const ctx = useContext(SwapyContext);
 
   return (
-    <Button onClick={() => ctx?.setEdit(!ctx.edit)}>
-      {ctx?.edit ? "Lock" : "Edit"}
+    <Button {...props} onClick={() => ctx?.setEdit(!ctx.edit)}>
+      {ctx?.edit ? "🔒" : "🔓"}
+    </Button>
+  );
+}
+
+export function SwapyAdd(props: ButtonProps) {
+  const ctx = useContext(SwapyContext);
+  return (
+    <Button {...props} onClick={() => ctx?.setCols(ctx.cols + 1)}>
+      +
+    </Button>
+  );
+}
+
+export function SwapySub(props: ButtonProps) {
+  const ctx = useContext(SwapyContext);
+  if (ctx?.cols == 1) {
+    return "";
+  }
+  return (
+    <Button {...props} onClick={() => ctx?.setCols(ctx.cols - 1)}>
+      -
     </Button>
   );
 }

@@ -1,12 +1,11 @@
 import { ReactNode } from "react";
-import SwapyGrid, { SwapyEdit } from "../swapyGrid";
+import SwapyGrid from "../swapyGrid";
 
 export default function SwapyGridDemo() {
   return (
-    <div className="p-16 w-full max-w-sm">
+    <div className="p-8 w-full max-w-sm">
       <SwapyGrid
         className="gap-2"
-        layoutStyle="grid gap-2"
         initialsCols={3}
         defaultComponent={<DemoDisplay>Hi</DemoDisplay>}
         initialSwapyData={[
@@ -14,11 +13,7 @@ export default function SwapyGridDemo() {
           { id: "try", col: 2, row: 1, node: <DemoDisplay>Hi</DemoDisplay> },
           { id: "bye", col: 2, row: 1, node: <DemoDisplay>Hi</DemoDisplay> },
         ]}
-      >
-        <div>
-          <SwapyEdit />
-        </div>
-      </SwapyGrid>
+      />
     </div>
   );
 }
