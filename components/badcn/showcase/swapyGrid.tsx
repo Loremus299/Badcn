@@ -9,7 +9,6 @@ export default function SwapyGridDemo() {
     <div className="p-8 w-full max-w-xs">
       <SwapyGrid
         className="gap-2"
-        onAdd={() => setNewId(globalThis.crypto.randomUUID())}
         initialsCols={3}
         initialSwapyData={[
           { id: "1", col: 1, row: 1, node: <DemoDisplay>🍍</DemoDisplay> },
@@ -21,6 +20,9 @@ export default function SwapyGridDemo() {
       >
         <div className="w-full h-full bg-background rounded-md border grid place-items-center p-1">
           <SwapyAddItem
+            onAdd={() => {
+              setNewId(globalThis.crypto.randomUUID());
+            }}
             id={newId}
             col={1}
             row={1}
@@ -31,6 +33,9 @@ export default function SwapyGridDemo() {
             🍓 +
           </SwapyAddItem>
           <SwapyAddItem
+            onAdd={() => {
+              setNewId(globalThis.crypto.randomUUID());
+            }}
             id={newId}
             col={1}
             row={1}
