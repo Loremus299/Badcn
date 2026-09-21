@@ -34,8 +34,6 @@ type Props = ComponentProps<"div"> & {
   onSwapStart?: (arg: SwapStartEvent) => void;
   onSwapEnd?: (arg: SwapEndEvent) => void;
   onAdd?: (arg: Array<SwapyNode>, node: SwapyNode) => void;
-  onResize?: (arg: SwapyNode) => void;
-  onRemove?: (arg: SwapyNode) => void;
   onEditStart?: (arg: Array<SwapyNode>) => void;
   onEditEnd?: (arg: Array<SwapyNode>) => void;
 };
@@ -48,8 +46,6 @@ const SwapyContext = createContext<{
   edit: boolean;
   setEdit: Dispatch<SetStateAction<boolean>>;
   onAdd: (arg: Array<SwapyNode>, node: SwapyNode) => void;
-  onResize: (arg: SwapyNode) => void;
-  onRemove: (arg: SwapyNode) => void;
   onEditStart: (arg: Array<SwapyNode>) => void;
   onEditEnd: (arg: Array<SwapyNode>) => void;
 } | null>(null);
@@ -62,8 +58,6 @@ export default function SwapyGrid({
   onSwapStart = () => {},
   onSwapEnd = () => {},
   onAdd = () => {},
-  onResize = () => {},
-  onRemove = () => {},
   onEditStart = () => {},
   onEditEnd = () => {},
   className,
@@ -131,8 +125,6 @@ export default function SwapyGrid({
         edit,
         setEdit,
         onAdd,
-        onResize,
-        onRemove,
         onEditStart,
         onEditEnd,
       }}
@@ -357,8 +349,6 @@ function SwapyItemAddCol(props: ButtonProps & { id: string }) {
             item.id === cur.id ? { ...item, col: item.col + 1 } : item,
           ),
         );
-
-        ctx?.onResize({ ...cur, col: cur.col + 1 });
       }}
     >
       +
@@ -382,8 +372,6 @@ function SwapyItemSubCol(props: ButtonProps & { id: string }) {
             item.id === cur.id ? { ...item, col: item.col - 1 } : item,
           ),
         );
-
-        ctx?.onResize({ ...cur, col: cur.col - 1 });
       }}
     >
       -
@@ -405,8 +393,6 @@ function SwapyItemAddRow(props: ButtonProps & { id: string }) {
             item.id === cur.id ? { ...item, row: item.row + 1 } : item,
           ),
         );
-
-        ctx?.onResize({ ...cur, row: cur.row + 1 });
       }}
     >
       +
@@ -430,8 +416,6 @@ function SwapyItemSubRow(props: ButtonProps & { id: string }) {
             item.id === cur.id ? { ...item, row: item.row - 1 } : item,
           ),
         );
-
-        ctx?.onResize({ ...cur, row: cur.row - 1 });
       }}
     >
       -
@@ -449,7 +433,6 @@ function SwapyItemDel(props: ButtonProps & { id: string }) {
       {...props}
       onClick={() => {
         ctx?.setSwapyData(ctx.swapyData.filter((item) => item.id !== props.id));
-        ctx?.onRemove(cur);
       }}
     >
       🗑️

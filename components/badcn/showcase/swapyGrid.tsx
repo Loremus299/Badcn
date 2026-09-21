@@ -18,12 +18,6 @@ export default function SwapyGridDemo() {
         ]}
         onEditStart={() => toast.add({ title: "Happy Editing :3" })}
         onEditEnd={() => toast.add({ title: "Editing finished." })}
-        onResize={(i) =>
-          toast.add({
-            title: "Slot resized",
-            description: `(${i.col},${i.row})`,
-          })
-        }
         onSwapStart={() =>
           toast.add({ title: "Where are you gonna put this item ?" })
         }
