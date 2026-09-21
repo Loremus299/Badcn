@@ -78,7 +78,7 @@ export default function SwapyGrid({
 
   useEffect(() => {
     if (!container.current) return;
-    swapy.current = createSwapy(container.current);
+    swapy.current = createSwapy(container.current, { swapMode: "drop" });
 
     swapy.current.onSwap((event) => {
       onSwap(event);
