@@ -224,7 +224,18 @@ function SwapySub(props: ButtonProps) {
     return "";
   }
   return (
-    <Button {...props} onClick={() => ctx?.setCols(ctx.cols - 1)}>
+    <Button
+      {...props}
+      onClick={() => {
+        ctx?.setCols(ctx.cols - 1);
+
+        ctx?.setSwapyData(
+          ctx.swapyData.map((item) =>
+            item.col > ctx.cols - 1 ? { ...item, col: item.col - 1 } : item,
+          ),
+        );
+      }}
+    >
       -
     </Button>
   );
