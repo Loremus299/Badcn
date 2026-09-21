@@ -22,6 +22,7 @@ export default function SwapyGridDemo() {
           <SwapyAddItem
             onAdd={() => {
               setNewId(globalThis.crypto.randomUUID());
+              toast.add({ title: `Added component 🍓` });
             }}
             id={newId}
             col={1}
@@ -35,6 +36,7 @@ export default function SwapyGridDemo() {
           <SwapyAddItem
             onAdd={() => {
               setNewId(globalThis.crypto.randomUUID());
+              toast.add({ title: `Added component 🍍` });
             }}
             id={newId}
             col={1}
