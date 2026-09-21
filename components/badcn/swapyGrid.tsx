@@ -33,7 +33,7 @@ type Props = ComponentProps<"div"> & {
   onSwap?: (arg: SwapEvent) => void;
   onSwapStart?: (arg: SwapStartEvent) => void;
   onSwapEnd?: (arg: SwapEndEvent) => void;
-  defaultComponent?: ReactNode;
+  onAdd?: (arg: Array<SwapyNode>, node: SwapyNode) => void;
 };
 
 const SwapyContext = createContext<{
@@ -43,6 +43,7 @@ const SwapyContext = createContext<{
   setCols: Dispatch<SetStateAction<number>>;
   edit: boolean;
   setEdit: Dispatch<SetStateAction<boolean>>;
+  onAdd: (arg: Array<SwapyNode>, node: SwapyNode) => void;
 } | null>(null);
 
 export default function SwapyGrid({
@@ -52,8 +53,9 @@ export default function SwapyGrid({
   onSwap = () => {},
   onSwapStart = () => {},
   onSwapEnd = () => {},
-  defaultComponent,
+  onAdd = () => {},
   className,
+  children,
   ...props
 }: Props) {
   const swapy = useRef<Swapy>(null);
@@ -116,7 +118,7 @@ export default function SwapyGrid({
 
   return (
     <SwapyContext.Provider
-      value={{ swapyData, setSwapyData, cols, setCols, edit, setEdit }}
+      value={{ swapyData, setSwapyData, cols, setCols, edit, setEdit, onAdd }}
     >
       <div className="grid gap-2">
         <div className="flex items-center gap-2">
@@ -150,23 +152,7 @@ export default function SwapyGrid({
               node={item.node}
             />
           ))}
-          {edit && (
-            <Button
-              onClick={() => {
-                setSwapyData([
-                  ...swapyData,
-                  {
-                    id: globalThis.crypto.randomUUID(),
-                    col: 1,
-                    row: 1,
-                    node: defaultComponent,
-                  },
-                ]);
-              }}
-            >
-              +
-            </Button>
-          )}
+          {children}
         </div>
       </div>
     </SwapyContext.Provider>
@@ -176,13 +162,44 @@ export default function SwapyGrid({
 type ButtonProps = ComponentProps<typeof Button>;
 type DivProps = ComponentProps<"div">;
 
+export function SwapyAddItem(
+  props: ButtonProps & {
+    id: string;
+    row: number;
+    col: number;
+    item: ReactNode;
+  },
+) {
+  const ctx = useContext(SwapyContext);
+  return (
+    <Button
+      {...props}
+      onClick={() => {
+        ctx?.setSwapyData([
+          ...ctx.swapyData,
+          { id: props.id, col: props.col, row: props.row, node: props.item },
+        ]);
+
+        ctx?.onAdd(ctx.swapyData, {
+          id: props.id,
+          col: props.col,
+          row: props.row,
+          node: props.item,
+        });
+      }}
+    >
+      {props.children}
+    </Button>
+  );
+}
+
 function SwapyDisplay(props: DivProps) {
   const ctx = useContext(SwapyContext);
 
   return <div {...props}>{ctx?.cols}</div>;
 }
 
-export function SwapyEdit(props: ButtonProps) {
+function SwapyEdit(props: ButtonProps) {
   const ctx = useContext(SwapyContext);
 
   return (
