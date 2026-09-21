@@ -18,10 +18,6 @@ export default function SwapyGridDemo() {
         ]}
         onEditStart={() => toast.add({ title: "Happy Editing :3" })}
         onEditEnd={() => toast.add({ title: "Editing finished." })}
-        onSwapStart={() =>
-          toast.add({ title: "Where are you gonna put this item ?" })
-        }
-        onSwapEnd={() => toast.add({ title: "Nice place :3" })}
       >
         <div className="w-full h-full bg-background rounded-md border grid place-items-center p-1">
           <SwapyAddItem
