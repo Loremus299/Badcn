@@ -292,17 +292,20 @@ function SwapyItem(item: SwapyNode & { index: number }) {
               </div>
             </div>
             <div className="relative">
-              <div className="absolute bg-muted rounded-r-md -mt-2 ml-3 pl-3 flex items-center gap-4">
+              <div className="absolute bg-muted rounded-r-md -mt-2 ml-3 pl-3 flex items-center">
                 <SwapyItemSubCol
                   id={item.id}
-                  className={"rounded-none w-1"}
+                  className={"rounded-none"}
                   variant={"ghost"}
                   size={"icon-xs"}
                 />
-                <SwapyColDisplay id={item.id} className="text-xs" />
+                <SwapyColDisplay
+                  id={item.id}
+                  className="text-xs w-4 grid place-items-center"
+                />
                 <SwapyItemAddCol
                   id={item.id}
-                  className={"rounded-none w-1 mr-2"}
+                  className={"rounded-none mr-2"}
                   variant={"ghost"}
                   size={"icon-xs"}
                 />
