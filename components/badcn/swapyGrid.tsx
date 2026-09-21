@@ -34,6 +34,7 @@ type Props = ComponentProps<"div"> & {
   onSwapStart?: (arg: SwapStartEvent) => void;
   onSwapEnd?: (arg: SwapEndEvent) => void;
   onAdd?: (arg: Array<SwapyNode>, node: SwapyNode) => void;
+  onResize?: (arg: SwapyNode) => void;
 };
 
 const SwapyContext = createContext<{
@@ -44,6 +45,7 @@ const SwapyContext = createContext<{
   edit: boolean;
   setEdit: Dispatch<SetStateAction<boolean>>;
   onAdd: (arg: Array<SwapyNode>, node: SwapyNode) => void;
+  onResize: (arg: SwapyNode) => void;
 } | null>(null);
 
 export default function SwapyGrid({
@@ -54,6 +56,7 @@ export default function SwapyGrid({
   onSwapStart = () => {},
   onSwapEnd = () => {},
   onAdd = () => {},
+  onResize = () => {},
   className,
   children,
   ...props
@@ -118,7 +121,16 @@ export default function SwapyGrid({
 
   return (
     <SwapyContext.Provider
-      value={{ swapyData, setSwapyData, cols, setCols, edit, setEdit, onAdd }}
+      value={{
+        swapyData,
+        setSwapyData,
+        cols,
+        setCols,
+        edit,
+        setEdit,
+        onAdd,
+        onResize,
+      }}
     >
       <div className="grid gap-2">
         <div className="flex items-center gap-2">
@@ -328,6 +340,8 @@ function SwapyItemAddCol(props: ButtonProps & { id: string }) {
             item.id === cur.id ? { ...item, col: item.col + 1 } : item,
           ),
         );
+
+        ctx?.onResize({ ...cur, col: cur.col + 1 });
       }}
     >
       +
@@ -351,6 +365,8 @@ function SwapyItemSubCol(props: ButtonProps & { id: string }) {
             item.id === cur.id ? { ...item, col: item.col - 1 } : item,
           ),
         );
+
+        ctx?.onResize({ ...cur, col: cur.col - 1 });
       }}
     >
       -
@@ -372,6 +388,8 @@ function SwapyItemAddRow(props: ButtonProps & { id: string }) {
             item.id === cur.id ? { ...item, row: item.row + 1 } : item,
           ),
         );
+
+        ctx?.onResize({ ...cur, row: cur.row + 1 });
       }}
     >
       +
@@ -395,6 +413,8 @@ function SwapyItemSubRow(props: ButtonProps & { id: string }) {
             item.id === cur.id ? { ...item, row: item.row - 1 } : item,
           ),
         );
+
+        ctx?.onResize({ ...cur, row: cur.row - 1 });
       }}
     >
       -
