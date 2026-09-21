@@ -447,12 +447,15 @@ function SwapyItemSubRow(props: ButtonProps & { id: string }) {
 
 function SwapyItemDel(props: ButtonProps & { id: string }) {
   const ctx = useContext(SwapyContext);
+  const cur = ctx?.swapyData.find((x) => x.id === props.id);
+  if (!cur) return;
 
   return (
     <Button
       {...props}
       onClick={() => {
         ctx?.setSwapyData(ctx.swapyData.filter((item) => item.id !== props.id));
+        ctx?.onRemove(cur);
       }}
     >
       🗑️
