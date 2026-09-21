@@ -90,29 +90,22 @@ export default function SwapyGrid({
 
     swapy.current.onSwapEnd((event) => {
       if (event.hasChanged) {
-        const slotMap = event.slotItemMap.asArray;
+        const slotItemMap = event.slotItemMap.asObject;
 
         setSwapyData((prev) => {
-          const prevMap = new Map(prev.map((item) => [item.id, item]));
-          const slotDimensions = prev.map((item) => ({
-            col: item.col,
-            row: item.row,
-          }));
-
+          const itemMap = new Map(
+            prev.map((item) => [`item-${item.id}`, item]),
+          );
           const nextData: SwapyNode[] = [];
 
-          slotMap.forEach((entry: { item: string }, index: number) => {
-            const itemId = entry.item.replace("item-", "");
-            const item = prevMap.get(itemId);
+          for (let i = 0; i < prev.length; i++) {
+            const slotId = `slot-${i}`;
+            const itemId = slotItemMap[slotId];
 
-            if (item) {
-              nextData.push({
-                ...item,
-                col: slotDimensions[index].col,
-                row: slotDimensions[index].row,
-              });
+            if (itemId && itemMap.has(itemId)) {
+              nextData.push(itemMap.get(itemId)!);
             }
-          });
+          }
 
           return nextData.length === prev.length ? nextData : prev;
         });
@@ -167,8 +160,9 @@ export default function SwapyGrid({
           }}
           ref={container}
         >
-          {swapyData.map((item) => (
+          {swapyData.map((item, index) => (
             <SwapyItem
+              index={index}
               key={item.id}
               id={item.id}
               col={item.col}
@@ -276,14 +270,14 @@ function SwapySub(props: ButtonProps) {
   );
 }
 
-function SwapyItem(item: SwapyNode) {
+function SwapyItem(item: SwapyNode & { index: number }) {
   const ctx = useContext(SwapyContext);
   const [showEdit, setShowEdit] = useState(false);
 
   return (
     <div
-      key={item.id}
-      data-swapy-slot={`slot-${item.id}`}
+      key={item.index}
+      data-swapy-slot={`slot-${item.index}`}
       className="h-full w-full"
       onMouseEnter={() => setShowEdit(true)}
       onMouseLeave={() => setShowEdit(false)}
