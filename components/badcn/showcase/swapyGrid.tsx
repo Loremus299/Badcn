@@ -11,19 +11,33 @@ export default function SwapyGridDemo() {
         onAdd={() => setNewId(globalThis.crypto.randomUUID())}
         initialsCols={3}
         initialSwapyData={[
-          { id: "hi", col: 1, row: 1, node: <DemoDisplay>Hi</DemoDisplay> },
-          { id: "try", col: 2, row: 1, node: <DemoDisplay>Bye</DemoDisplay> },
-          { id: "bye", col: 2, row: 1, node: <DemoDisplay>Try</DemoDisplay> },
+          { id: "1", col: 1, row: 1, node: <DemoDisplay>🍍</DemoDisplay> },
+          { id: "2", col: 2, row: 1, node: <DemoDisplay>🍓</DemoDisplay> },
+          { id: "3", col: 2, row: 1, node: <DemoDisplay>🍍</DemoDisplay> },
         ]}
       >
-        <SwapyAddItem
-          id={newId}
-          col={1}
-          row={1}
-          item={<DemoDisplay>TRy</DemoDisplay>}
-        >
-          +
-        </SwapyAddItem>
+        <div className="w-full h-full bg-background rounded-md border grid place-items-center p-1">
+          <SwapyAddItem
+            id={newId}
+            col={1}
+            row={1}
+            item={<DemoDisplay>🍓</DemoDisplay>}
+            variant={"secondary"}
+            className={"w-full"}
+          >
+            🍓 +
+          </SwapyAddItem>
+          <SwapyAddItem
+            id={newId}
+            col={1}
+            row={1}
+            item={<DemoDisplay>🍍</DemoDisplay>}
+            variant={"secondary"}
+            className={"w-full"}
+          >
+            🍍 +
+          </SwapyAddItem>
+        </div>
       </SwapyGrid>
     </div>
   );
@@ -31,7 +45,7 @@ export default function SwapyGridDemo() {
 
 function DemoDisplay({ children }: { children: ReactNode }) {
   return (
-    <div className="p-2 border bg-background rounded-md w-full h-full">
+    <div className="p-2 border bg-background rounded-md w-full h-20 grid place-items-center">
       {children}
     </div>
   );
