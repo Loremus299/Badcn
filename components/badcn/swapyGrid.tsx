@@ -35,6 +35,9 @@ type Props = ComponentProps<"div"> & {
   onSwapEnd?: (arg: SwapEndEvent) => void;
   onAdd?: (arg: Array<SwapyNode>, node: SwapyNode) => void;
   onResize?: (arg: SwapyNode) => void;
+  onRemove?: (arg: SwapyNode) => void;
+  onEditStart?: (arg: Array<SwapyNode>) => void;
+  onEditEnd?: (arg: Array<SwapyNode>) => void;
 };
 
 const SwapyContext = createContext<{
@@ -46,6 +49,9 @@ const SwapyContext = createContext<{
   setEdit: Dispatch<SetStateAction<boolean>>;
   onAdd: (arg: Array<SwapyNode>, node: SwapyNode) => void;
   onResize: (arg: SwapyNode) => void;
+  onRemove: (arg: SwapyNode) => void;
+  onEditStart: (arg: Array<SwapyNode>) => void;
+  onEditEnd: (arg: Array<SwapyNode>) => void;
 } | null>(null);
 
 export default function SwapyGrid({
@@ -57,6 +63,9 @@ export default function SwapyGrid({
   onSwapEnd = () => {},
   onAdd = () => {},
   onResize = () => {},
+  onRemove = () => {},
+  onEditStart = () => {},
+  onEditEnd = () => {},
   className,
   children,
   ...props
@@ -130,6 +139,9 @@ export default function SwapyGrid({
         setEdit,
         onAdd,
         onResize,
+        onRemove,
+        onEditStart,
+        onEditEnd,
       }}
     >
       <div className="grid gap-2">
@@ -164,7 +176,7 @@ export default function SwapyGrid({
               node={item.node}
             />
           ))}
-          {children}
+          {edit ? children : ""}
         </div>
       </div>
     </SwapyContext.Provider>
@@ -215,7 +227,18 @@ function SwapyEdit(props: ButtonProps) {
   const ctx = useContext(SwapyContext);
 
   return (
-    <Button {...props} onClick={() => ctx?.setEdit(!ctx.edit)}>
+    <Button
+      {...props}
+      onClick={() => {
+        if (ctx?.edit) {
+          ctx.onEditEnd(ctx.swapyData);
+        } else {
+          ctx?.onEditStart(ctx.swapyData);
+        }
+
+        ctx?.setEdit(!ctx.edit);
+      }}
+    >
       {ctx?.edit ? "🔒" : "🔓"}
     </Button>
   );

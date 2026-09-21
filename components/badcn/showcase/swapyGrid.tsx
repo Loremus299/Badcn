@@ -1,5 +1,6 @@
 import { ReactNode, useState } from "react";
 import SwapyGrid, { SwapyAddItem } from "../swapyGrid";
+import { toast } from "@/components/ui/toast";
 
 export default function SwapyGridDemo() {
   const [newId, setNewId] = useState(globalThis.crypto.randomUUID());
@@ -15,6 +16,18 @@ export default function SwapyGridDemo() {
           { id: "2", col: 2, row: 1, node: <DemoDisplay>🍓</DemoDisplay> },
           { id: "3", col: 2, row: 1, node: <DemoDisplay>🍍</DemoDisplay> },
         ]}
+        onEditStart={() => toast.add({ title: "Happy Editing :3" })}
+        onEditEnd={() => toast.add({ title: "Editing finished." })}
+        onResize={(i) =>
+          toast.add({
+            title: "Slot resized",
+            description: `(${i.col},${i.row})`,
+          })
+        }
+        onSwapStart={() =>
+          toast.add({ title: "Where are you gonna put this item ?" })
+        }
+        onSwapEnd={() => toast.add({ title: "Nice place :3" })}
       >
         <div className="w-full h-full bg-background rounded-md border grid place-items-center p-1">
           <SwapyAddItem
@@ -45,7 +58,7 @@ export default function SwapyGridDemo() {
 
 function DemoDisplay({ children }: { children: ReactNode }) {
   return (
-    <div className="p-2 border bg-background rounded-md w-full h-20 grid place-items-center">
+    <div className="p-2 border bg-background rounded-md w-full min-h-20 h-full grid place-items-center">
       {children}
     </div>
   );
