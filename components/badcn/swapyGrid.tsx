@@ -279,57 +279,6 @@ function SwapyItem(item: SwapyNode & { index: number }) {
       }}
     >
       <div className="h-full w-full" data-swapy-item={`item-${item.id}`}>
-        {ctx?.edit && showEdit && (
-          <>
-            <div className="relative">
-              <div className="absolute bg-muted rounded-tl-md -mt-2 -ml-2">
-                <SwapyItemDel
-                  id={item.id}
-                  className={"rounded-none text-xs"}
-                  variant={"ghost"}
-                  size={"icon-xs"}
-                />
-              </div>
-            </div>
-            <div className="relative">
-              <div className="absolute bg-muted rounded-r-md -mt-2 ml-3 pl-3 flex items-center">
-                <SwapyItemSubCol
-                  id={item.id}
-                  className={"rounded-none"}
-                  variant={"ghost"}
-                  size={"icon-xs"}
-                />
-                <SwapyColDisplay
-                  id={item.id}
-                  className="text-xs w-4 grid place-items-center"
-                />
-                <SwapyItemAddCol
-                  id={item.id}
-                  className={"rounded-none mr-2"}
-                  variant={"ghost"}
-                  size={"icon-xs"}
-                />
-              </div>
-            </div>
-            <div className="relative">
-              <div className="absolute bg-muted rounded-b-md mt-4 -ml-2 grid place-items-center">
-                <SwapyItemSubRow
-                  id={item.id}
-                  className={"rounded-none"}
-                  variant={"ghost"}
-                  size={"icon-xs"}
-                />
-                <SwapyRowDisplay id={item.id} className="text-xs pt-2" />
-                <SwapyItemAddRow
-                  id={item.id}
-                  className={"rounded-none"}
-                  variant={"ghost"}
-                  size={"icon-xs"}
-                />
-              </div>
-            </div>
-          </>
-        )}
         {item.node}
       </div>
     </div>
