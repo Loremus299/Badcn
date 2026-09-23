@@ -268,9 +268,7 @@ function SwapyItem(item: SwapyNode & { index: number }) {
 
   return (
     <div
-      key={item.index}
-      data-swapy-slot={`slot-${item.index}`}
-      className="h-full w-full"
+      className="relative"
       onMouseEnter={() => setShowEdit(true)}
       onMouseLeave={() => setShowEdit(false)}
       style={{
@@ -278,8 +276,54 @@ function SwapyItem(item: SwapyNode & { index: number }) {
         gridColumn: `span ${item.col} / span ${item.col}`,
       }}
     >
-      <div className="h-full w-full" data-swapy-item={`item-${item.id}`}>
-        {item.node}
+      {ctx?.edit && showEdit && (
+        <div className="absolute">
+          <div className="bg-muted -mt-2 -ml-2 flex items-center rounded-r-full rounded-tl-md">
+            <SwapyItemDel
+              id={item.id}
+              variant={"secondary"}
+              size={"icon-xs"}
+              className={"text-xs"}
+            />
+            <SwapyItemSubCol
+              id={item.id}
+              variant={"ghost"}
+              size={"icon-xs"}
+              className={"text-xs rounded-none"}
+            />
+            <SwapyColDisplay id={item.id} className="text-xs" />
+            <SwapyItemAddCol
+              id={item.id}
+              variant={"ghost"}
+              size={"icon-xs"}
+              className={"text-xs rounded-none"}
+            />
+          </div>
+          <div className="bg-muted -mt-1 -ml-2 w-5.5 grid place-items-center rounded-b-full">
+            <SwapyItemSubRow
+              id={item.id}
+              variant={"ghost"}
+              size={"icon-xs"}
+              className={"text-xs rounded-none"}
+            />
+            <SwapyRowDisplay id={item.id} className="text-xs" />
+            <SwapyItemAddRow
+              id={item.id}
+              variant={"ghost"}
+              size={"icon-xs"}
+              className={"text-xs rounded-none"}
+            />
+          </div>
+        </div>
+      )}
+      <div
+        key={item.index}
+        data-swapy-slot={`slot-${item.index}`}
+        className="h-full w-full"
+      >
+        <div className="h-full w-full" data-swapy-item={`item-${item.id}`}>
+          {item.node}
+        </div>
       </div>
     </div>
   );
