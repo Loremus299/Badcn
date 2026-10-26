@@ -1,164 +1,181 @@
 {
-  "$schema": "https://ui.shadcn.com/schema/registry.json",
-  "name": "badcn",
-  "homepage": "https://cn.loremus.gay",
-  "items": [
-    {
-      "name": "loading-button",
-      "description": "A button with support for loading state.",
-      "author": "Loremus",
-      "authorContact": "https://web.loremus.gay/",
-      "authorImage": "https://avatars.githubusercontent.com/u/230110912",
-      "type": "registry:component",
-      "dependencies": [],
-      "registryDependencies": ["button"],
-      "files": [
-        {
-          "path": "components/badcn/loadingButton.tsx",
-          "type": "registry:component",
-          "demo": "components/badcn/showcase/loadingButton.tsx"
-        }
-      ]
-    },
-    {
-      "name": "tooltip-button",
-      "description": "A button with tooltip and loading support.",
-      "author": "Loremus",
-      "authorContact": "https://web.loremus.gay/",
-      "authorImage": "https://avatars.githubusercontent.com/u/230110912",
-      "type": "registry:component",
-      "dependencies": [],
-      "registryDependencies": [
-        "button",
-        "tooltip",
-        "https://cn.loremus.gay/r/loading-button.json"
-      ],
-      "files": [
-        {
-          "path": "components/badcn/tooltipButton.tsx",
-          "type": "registry:component",
-          "demo": "components/badcn/showcase/tooltipButton.tsx"
-        },
-        {
-          "path": "components/badcn/loadingButton.tsx",
-          "type": "registry:component",
-          "demo": "components/badcn/showcase/loadingButton.tsx"
-        }
-      ]
-    },
-    {
-      "name": "image-input",
-      "description": "Image input with paste, drag & drop, preview.",
-      "author": "Loremus",
-      "authorContact": "https://web.loremus.gay/",
-      "authorImage": "https://avatars.githubusercontent.com/u/230110912",
-      "type": "registry:component",
-      "dependencies": [],
-      "registryDependencies": ["button", "input", "carousel"],
-      "files": [
-        {
-          "path": "components/badcn/imageInput.tsx",
-          "type": "registry:component",
-          "demo": "components/badcn/showcase/imageInput.tsx"
-        }
-      ]
-    },
-    {
-      "name": "from-now-hover-card",
-      "description": "Hover card to see dates in UTC and user's timezone.",
-      "author": "Gurpal Singh",
-      "authorContact": "https://www.procrastinator.fyi/en",
-      "authorImage": "https://avatars.githubusercontent.com/u/76196237",
-      "type": "registry:component",
-      "dependencies": ["dayjs"],
-      "registryDependencies": ["hover-card"],
-      "files": [
-        {
-          "path": "components/badcn/fromNowHoverCard.tsx",
-          "type": "registry:component",
-          "demo": "components/badcn/showcase/fromNowHoverCard.tsx"
-        }
-      ]
-    },
-    {
-      "name": "debounce-input",
-      "description": "Text input with debounce support.",
-      "author": "Loremus",
-      "authorContact": "https://web.loremus.gay/",
-      "authorImage": "https://avatars.githubusercontent.com/u/230110912",
-      "type": "registry:component",
-      "dependencies": [],
-      "registryDependencies": ["input"],
-      "files": [
-        {
-          "path": "components/badcn/debounceInput.tsx",
-          "type": "registry:component",
-          "demo": "components/badcn/showcase/debounceInput.tsx"
-        }
-      ]
-    },
-    {
-      "name": "form-controller",
-      "description": "React Hook Form wrapper.",
-      "author": "Loremus",
-      "authorContact": "https://web.loremus.gay/",
-      "authorImage": "https://avatars.githubusercontent.com/u/230110912",
-      "type": "registry:component",
-      "dependencies": ["react-hook-form"],
-      "registryDependencies": ["field"],
-      "files": [
-        {
-          "path": "components/badcn/formController.tsx",
-          "type": "registry:component",
-          "demo": "components/badcn/showcase/formController.tsx"
-        }
-      ]
-    },
-    {
-      "name": "color-picker",
-      "description": "Color Picker with sliders, color from image and presets.",
-      "author": "Loremus",
-      "authorContact": "https://web.loremus.gay/",
-      "authorImage": "https://avatars.githubusercontent.com/u/230110912",
-      "type": "registry:component",
-      "dependencies": ["react-colorful"],
-      "registryDependencies": [
-        "button",
-        "context-menu",
-        "dialog",
-        "input",
-        "https://cn.loremus.gay/r/image-input.json"
-      ],
-      "files": [
-        {
-          "path": "components/badcn/colorPicker.tsx",
-          "type": "registry:component",
-          "demo": "components/badcn/showcase/colorPicker.tsx"
-        },
-        {
-          "path": "components/badcn/colorPicker.css",
-          "type": "registry:file",
-          "target": "@components/badcn/colorPicker.css",
-          "demo": ""
-        }
-      ]
-    },
-    {
-      "name": "swapy-grid",
-      "description": "Dynamic drag and drop grid with Swapy.",
-      "author": "Loremus",
-      "authorContact": "https://web.loremus.gay/",
-      "authorImage": "https://avatars.githubusercontent.com/u/230110912",
-      "type": "registry:component",
-      "dependencies": ["swapy"],
-      "registryDependencies": ["button"],
-      "files": [
-        {
-          "path": "components/badcn/swapyGrid.tsx",
-          "type": "registry:component",
-          "demo": "components/badcn/showcase/swapyGrid.tsx"
-        }
-      ]
-    }
-  ]
+	"$schema": "https://ui.shadcn.com/schema/registry.json",
+	"name": "badcn",
+	"homepage": "https://cn.loremus.gay",
+	"items": [
+		{
+			"name": "loading-button",
+			"description": "A button with support for loading state.",
+			"author": "Loremus",
+			"authorContact": "https://web.loremus.gay/",
+			"authorImage": "https://avatars.githubusercontent.com/u/230110912",
+			"type": "registry:component",
+			"dependencies": [],
+			"registryDependencies": ["button"],
+			"files": [
+				{
+					"path": "components/badcn/loadingButton.tsx",
+					"type": "registry:component",
+					"demo": "components/badcn/showcase/loadingButton.tsx"
+				}
+			]
+		},
+		{
+			"name": "tooltip-button",
+			"description": "A button with tooltip and loading support.",
+			"author": "Loremus",
+			"authorContact": "https://web.loremus.gay/",
+			"authorImage": "https://avatars.githubusercontent.com/u/230110912",
+			"type": "registry:component",
+			"dependencies": [],
+			"registryDependencies": [
+				"button",
+				"tooltip",
+				"https://cn.loremus.gay/r/loading-button.json"
+			],
+			"files": [
+				{
+					"path": "components/badcn/tooltipButton.tsx",
+					"type": "registry:component",
+					"demo": "components/badcn/showcase/tooltipButton.tsx"
+				},
+				{
+					"path": "components/badcn/loadingButton.tsx",
+					"type": "registry:component",
+					"demo": "components/badcn/showcase/loadingButton.tsx"
+				}
+			]
+		},
+		{
+			"name": "image-input",
+			"description": "Image input with paste, drag & drop, preview.",
+			"author": "Loremus",
+			"authorContact": "https://web.loremus.gay/",
+			"authorImage": "https://avatars.githubusercontent.com/u/230110912",
+			"type": "registry:component",
+			"dependencies": [],
+			"registryDependencies": ["button", "input", "carousel"],
+			"files": [
+				{
+					"path": "components/badcn/imageInput.tsx",
+					"type": "registry:component",
+					"demo": "components/badcn/showcase/imageInput.tsx"
+				}
+			]
+		},
+		{
+			"name": "from-now-hover-card",
+			"description": "Hover card to see dates in UTC and user's timezone.",
+			"author": "Gurpal Singh",
+			"authorContact": "https://www.procrastinator.fyi/en",
+			"authorImage": "https://avatars.githubusercontent.com/u/76196237",
+			"type": "registry:component",
+			"dependencies": ["dayjs"],
+			"registryDependencies": ["hover-card"],
+			"files": [
+				{
+					"path": "components/badcn/fromNowHoverCard.tsx",
+					"type": "registry:component",
+					"demo": "components/badcn/showcase/fromNowHoverCard.tsx"
+				}
+			]
+		},
+		{
+			"name": "debounce-input",
+			"description": "Text input with debounce support.",
+			"author": "Loremus",
+			"authorContact": "https://web.loremus.gay/",
+			"authorImage": "https://avatars.githubusercontent.com/u/230110912",
+			"type": "registry:component",
+			"dependencies": [],
+			"registryDependencies": ["input"],
+			"files": [
+				{
+					"path": "components/badcn/debounceInput.tsx",
+					"type": "registry:component",
+					"demo": "components/badcn/showcase/debounceInput.tsx"
+				}
+			]
+		},
+		{
+			"name": "form-controller",
+			"description": "React Hook Form wrapper.",
+			"author": "Loremus",
+			"authorContact": "https://web.loremus.gay/",
+			"authorImage": "https://avatars.githubusercontent.com/u/230110912",
+			"type": "registry:component",
+			"dependencies": ["react-hook-form"],
+			"registryDependencies": ["field"],
+			"files": [
+				{
+					"path": "components/badcn/formController.tsx",
+					"type": "registry:component",
+					"demo": "components/badcn/showcase/formController.tsx"
+				}
+			]
+		},
+		{
+			"name": "color-picker",
+			"description": "Color Picker with sliders, color from image and presets.",
+			"author": "Loremus",
+			"authorContact": "https://web.loremus.gay/",
+			"authorImage": "https://avatars.githubusercontent.com/u/230110912",
+			"type": "registry:component",
+			"dependencies": ["react-colorful"],
+			"registryDependencies": [
+				"button",
+				"context-menu",
+				"dialog",
+				"input",
+				"https://cn.loremus.gay/r/image-input.json"
+			],
+			"files": [
+				{
+					"path": "components/badcn/colorPicker.tsx",
+					"type": "registry:component",
+					"demo": "components/badcn/showcase/colorPicker.tsx"
+				},
+				{
+					"path": "components/badcn/colorPicker.css",
+					"type": "registry:file",
+					"target": "@components/badcn/colorPicker.css",
+					"demo": ""
+				}
+			]
+		},
+		{
+			"name": "swapy-grid",
+			"description": "Dynamic drag and drop grid with Swapy.",
+			"author": "Loremus",
+			"authorContact": "https://web.loremus.gay/",
+			"authorImage": "https://avatars.githubusercontent.com/u/230110912",
+			"type": "registry:component",
+			"dependencies": ["swapy"],
+			"registryDependencies": ["button"],
+			"files": [
+				{
+					"path": "components/badcn/swapyGrid.tsx",
+					"type": "registry:component",
+					"demo": "components/badcn/showcase/swapyGrid.tsx"
+				}
+			]
+		},
+		{
+			"name": "install-package",
+			"description": "A button with common package managers with copy paste for your package.",
+			"author": "Loremus",
+			"authorContact": "https://web.loremus.gay/",
+			"authorImage": "https://avatars.githubusercontent.com/u/230110912",
+			"type": "registry:component",
+			"dependencies": [],
+			"registryDependencies": ["button", "toast"],
+			"files": [
+				{
+					"path": "components/badcn/installPackage.tsx",
+					"type": "registry:component",
+					"demo": "components/badcn/showcase/installPackage.tsx"
+				}
+			]
+		}
+	]
 }
